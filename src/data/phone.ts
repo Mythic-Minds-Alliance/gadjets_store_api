@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-import {Phone} from '../types/phone';
+import { Phone } from '../types/phone';
 
 const phonesFromServer: Phone[] = [
   {
