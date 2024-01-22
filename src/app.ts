@@ -29,7 +29,7 @@ export class App {
     this.port = process.env.port;
   }
 
-  useCors() {
+  useCors(): void {
     this.app.use(
       cors({
         origin: process.env.CLIENT_URL,
@@ -38,16 +38,16 @@ export class App {
     );
   }
 
-  useRoutes() {
+  useRoutes(): void {
     this.app.use('/users', this.userController.router);
     this.app.use('/', this.productController.router);
   }
 
-  useExceptionFilters() {
+  useExceptionFilters(): void {
     this.app.use(this.exceptionFilter.catch.bind(this.exceptionFilter));
   }
 
-  public async init() {
+  public async init(): Promise<void> {
     this.useCors();
     this.useRoutes();
     this.useExceptionFilters();

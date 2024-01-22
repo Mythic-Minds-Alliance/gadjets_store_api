@@ -7,6 +7,7 @@ import 'reflect-metadata';
 import { getProductsOnPage } from '../data/products';
 import { Product } from '../types/product';
 import { IProductController } from './products.controller.interface';
+import { ExpressReturnType } from '../common/route.interface';
 
 @injectable()
 export class ProductController
@@ -20,11 +21,15 @@ export class ProductController
     ]);
   }
 
-  getProducts(req: Request, res: Response, next: NextFunction) {
+  getProducts(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): ExpressReturnType {
     const pageNumber: number = parseInt(req.query.page as string) || 1;
     const pageSize: number = parseInt(req.query.size as string) || 10;
 
     const productsOnPage: Product[] = getProductsOnPage(pageNumber, pageSize);
-    res.send(productsOnPage);
+    return res.send(productsOnPage);
   }
 }
