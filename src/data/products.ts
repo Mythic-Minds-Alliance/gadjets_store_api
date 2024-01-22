@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-import {Product} from '../types/product';
+import { Product } from '../types/product';
 
 const productsFromServer: Product[] = [
   {
@@ -2722,7 +2722,7 @@ const productsFromServer: Product[] = [
 
 export function getProductsOnPage(
   pageNumber: number,
-  pageSize: number
+  pageSize: number,
 ): Product[] {
   const startIndex = (pageNumber - 1) * pageSize;
   const endIndex = startIndex + pageSize;

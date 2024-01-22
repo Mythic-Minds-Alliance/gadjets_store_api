@@ -1,26 +1,27 @@
-import express from 'express';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import {getProducts} from './products/products.controller';
+import { Container, ContainerModule, interfaces } from 'inversify';
+import { ILogger } from './logger/logger.interface';
+import { App } from './app';
+import { ExceptionFilter } from './errors/exception.filter';
+import { LoggerService } from './logger/logger.service';
+import { UserController } from './users/users.controller';
+import { TYPES } from './types/types';
+import { IExceptionFilter } from './errors/exception.filter.interface';
+import { ProductController } from './products/products.controller';
 
-dotenv.config();
-const app = express();
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL,
-    credentials: true,
-  })
-);
-app.use(express.json());
-
-// app.get('/', (req, res) => {
-//   res.send('Welcome to gadjets store');
-// });
-
-app.get('/products', getProducts);
-
-app.listen(process.env.PORT, () => {
-  console.log(
-    `Server started on ${process.env.SERVER_HOST}:${process.env.PORT}`
-  );
+export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
+  bind<ILogger>(TYPES.ILogger).to(LoggerService);
+  bind<IExceptionFilter>(TYPES.ExceptionFilter).to(ExceptionFilter);
+  bind<UserController>(TYPES.UserController).to(UserController);
+  bind<ProductController>(TYPES.ProductController).to(ProductController);
+  bind<App>(TYPES.Application).to(App);
 });
+
+function bootstrap() {
+  const appContainer = new Container();
+  appContainer.load(appBindings);
+  const app = appContainer.get<App>(TYPES.Application);
+  app.init();
+  return { app, appContainer };
+}
+
+export const { app, appContainer } = bootstrap();
