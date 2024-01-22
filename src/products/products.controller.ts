@@ -1,19 +1,22 @@
-import {NextFunction, Request, Response} from 'express';
-import {BaseController} from '../common/base.controller';
-import {inject, injectable} from 'inversify';
-import {ILogger} from '../logger/logger.interface';
-import {TYPES} from '../types/types';
+import { NextFunction, Request, Response } from 'express';
+import { BaseController } from '../common/base.controller';
+import { inject, injectable } from 'inversify';
+import { ILogger } from '../logger/logger.interface';
+import { TYPES } from '../types/types';
 import 'reflect-metadata';
-import {getProductsOnPage} from '../data/products';
-import {Product} from '../types/product';
+import { getProductsOnPage } from '../data/products';
+import { Product } from '../types/product';
 import { IProductController } from './products.controller.interface';
 
 @injectable()
-export class ProductController extends BaseController implements IProductController {
+export class ProductController
+  extends BaseController
+  implements IProductController
+{
   constructor(@inject(TYPES.ILogger) private loggerService: ILogger) {
     super(loggerService);
     this.bindRoutes([
-      {path: '/products', method: 'get', func: this.getProducts},
+      { path: '/products', method: 'get', func: this.getProducts },
     ]);
   }
 

@@ -21,8 +21,9 @@ export class App {
   constructor(
     @inject(TYPES.ILogger) private logger: ILogger,
     @inject(TYPES.UserController) private userController: UserController,
-    @inject(TYPES.ProductController) private productController: ProductController,
-    @inject(TYPES.ExceptionFilter) private exceptionFilter: ExceptionFilter
+    @inject(TYPES.ProductController)
+    private productController: ProductController,
+    @inject(TYPES.ExceptionFilter) private exceptionFilter: ExceptionFilter,
   ) {
     this.app = express();
     this.port = process.env.port;
@@ -33,7 +34,7 @@ export class App {
       cors({
         origin: process.env.CLIENT_URL,
         credentials: true,
-      })
+      }),
     );
   }
 
@@ -52,7 +53,7 @@ export class App {
     this.useExceptionFilters();
     this.server = this.app.listen(this.port);
     this.logger.log(
-      `Server started on ${process.env.SERVER_HOST}:${this.port}`
+      `Server started on ${process.env.SERVER_HOST}:${this.port}`,
     );
   }
 }
