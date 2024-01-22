@@ -1,11 +1,27 @@
-import {Request, Response} from 'express';
+import {NextFunction, Request, Response} from 'express';
+import {BaseController} from '../common/base.controller';
+import {inject, injectable} from 'inversify';
+import {ILogger} from '../logger/logger.interface';
+import {TYPES} from '../types/types';
+import 'reflect-metadata';
 import {getProductsOnPage} from '../data/products';
 import {Product} from '../types/product';
+import { IProductController } from './products.controller.interface';
 
-export function getProducts(req: Request, res: Response) {
-  const pageNumber: number = parseInt(req.query.page as string) || 1;
-  const pageSize: number = parseInt(req.query.size as string) || 10;
+@injectable()
+export class ProductController extends BaseController implements IProductController {
+  constructor(@inject(TYPES.ILogger) private loggerService: ILogger) {
+    super(loggerService);
+    this.bindRoutes([
+      {path: '/products', method: 'get', func: this.getProducts},
+    ]);
+  }
 
-  const productsOnPage: Product[] = getProductsOnPage(pageNumber, pageSize);
-  res.send(productsOnPage);
+  getProducts(req: Request, res: Response, next: NextFunction) {
+    const pageNumber: number = parseInt(req.query.page as string) || 1;
+    const pageSize: number = parseInt(req.query.size as string) || 10;
+
+    const productsOnPage: Product[] = getProductsOnPage(pageNumber, pageSize);
+    res.send(productsOnPage);
+  }
 }
