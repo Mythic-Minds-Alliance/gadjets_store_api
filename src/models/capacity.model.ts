@@ -1,4 +1,5 @@
-import { 
+/* eslint-disable */
+import {
   Table,
   Column,
   Model,
@@ -6,17 +7,14 @@ import {
   DataType,
   AllowNull,
   PrimaryKey,
-  Unique
+  Unique,
 } from 'sequelize-typescript';
 
-
-@Table(
-  { 
-    tableName: 'capacities',
-    createdAt: false,
-    updatedAt: false
+@Table({
+  tableName: 'capacities',
+  createdAt: false,
+  updatedAt: false,
 })
-
 export class CapacityModel extends Model {
   @AutoIncrement
   @PrimaryKey

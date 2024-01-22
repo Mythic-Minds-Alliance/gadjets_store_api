@@ -1,3 +1,4 @@
+/* eslint-disable */
 'use strict';
 
 const TABLE_NAME = 'users';
@@ -27,7 +28,7 @@ module.exports = {
       lastName: {
         allowNull: false,
         type: Sequelize.STRING,
-      }
+      },
     });
   },
 

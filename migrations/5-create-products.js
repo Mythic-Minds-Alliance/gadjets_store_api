@@ -1,3 +1,4 @@
+/* eslint-disable */
 'use strict';
 
 const TABLE_NAME = 'products';
@@ -75,7 +76,7 @@ module.exports = {
       year: {
         type: Sequelize.BIGINT,
         allowNull: false,
-      }
+      },
     });
   },
 

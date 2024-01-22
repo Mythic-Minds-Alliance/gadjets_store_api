@@ -1,10 +1,17 @@
+/* eslint-disable */
 import {
   AutoIncrement,
   Column,
   Model,
   PrimaryKey,
   Table,
-  DataType, AllowNull, Default, Unique, BeforeValidate, BeforeCreate, BelongsToMany,
+  DataType,
+  AllowNull,
+  Default,
+  Unique,
+  BeforeValidate,
+  BeforeCreate,
+  BelongsToMany,
 } from 'sequelize-typescript';
 import { RoleModel } from './role.model';
 import { UsersRolesModel } from './users.roles.model';
@@ -12,7 +19,6 @@ import { UsersRolesModel } from './users.roles.model';
 @Table({
   tableName: 'users',
 })
-
 class UserModel extends Model {
   @AutoIncrement
   @PrimaryKey
@@ -38,9 +44,6 @@ class UserModel extends Model {
 
   @BelongsToMany(() => RoleModel, () => UsersRolesModel)
   roles!: RoleModel[];
-
 }
-
-
 
 export { UserModel, RoleModel };

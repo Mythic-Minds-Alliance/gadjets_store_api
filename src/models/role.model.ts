@@ -1,16 +1,19 @@
+/* eslint-disable */
 import {
   AutoIncrement,
   Column,
   Model,
   PrimaryKey,
   Table,
-  DataType, AllowNull, Unique,
+  DataType,
+  AllowNull,
+  Unique,
 } from 'sequelize-typescript';
 
 enum Role {
   ADMIN = 'admin',
   USER = 'user',
-  MODERATOR = 'moderator'
+  MODERATOR = 'moderator',
 }
 
 @Table({

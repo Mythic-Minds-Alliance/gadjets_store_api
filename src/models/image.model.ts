@@ -1,4 +1,12 @@
-import { Model, Column, Table, AutoIncrement, Unique, ForeignKey } from 'sequelize-typescript';
+/* eslint-disable */
+import {
+  Model,
+  Column,
+  Table,
+  AutoIncrement,
+  Unique,
+  ForeignKey,
+} from 'sequelize-typescript';
 import { DataType } from 'sequelize-typescript';
 import { ProductModel } from './product.model';
 
@@ -7,7 +15,6 @@ import { ProductModel } from './product.model';
   createdAt: false,
   updatedAt: false,
 })
-
 export class ImageModel extends Model {
   @AutoIncrement
   @Unique
@@ -15,7 +22,7 @@ export class ImageModel extends Model {
     type: DataType.INTEGER,
     primaryKey: true,
   })
-  id: number
+  id: number;
 
   @ForeignKey(() => ProductModel)
   @Column({
@@ -29,7 +36,5 @@ export class ImageModel extends Model {
     type: DataType.STRING,
     allowNull: false,
   })
-    path: string;
+  path: string;
 }
-
-

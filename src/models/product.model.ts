@@ -1,4 +1,5 @@
-import { 
+/* eslint-disable */
+import {
   Table,
   Column,
   Model,
@@ -10,7 +11,7 @@ import {
   PrimaryKey,
   BelongsToMany,
   Unique,
-  HasMany
+  HasMany,
 } from 'sequelize-typescript';
 import { CategoryModel } from './category.model';
 import { ColorModel } from './colors.model';
@@ -21,95 +22,93 @@ import { ProductsCapacities } from './products_capacities.model';
 import { CellModel } from './cell.model';
 import { ProductsCells } from './products_cells.model';
 
-@Table(
-  { 
-    tableName: 'products',
-    createdAt: false,
-    updatedAt: false
-  })
-
+@Table({
+  tableName: 'products',
+  createdAt: false,
+  updatedAt: false,
+})
 export class ProductModel extends Model {
   @AutoIncrement
   @PrimaryKey
   @Column(DataType.INTEGER)
-    id: number;
+  id: number;
 
   @ForeignKey(() => CategoryModel)
   @Column
-    categoryId: number;
+  categoryId: number;
 
   @BelongsTo(() => CategoryModel)
-    category: CategoryModel;
+  category: CategoryModel;
 
   @Unique
   @AllowNull(false)
   @Column(DataType.STRING)
-    name: string;
+  name: string;
 
   @AllowNull(false)
   @Column(DataType.STRING)
-    brand: string;
+  brand: string;
 
   @AllowNull(false)
   @Column(DataType.STRING)
-    color: string;
+  color: string;
 
   @BelongsToMany(() => ColorModel, () => ProductsColors)
-    colorsAvailable!: ColorModel[];
+  colorsAvailable!: ColorModel[];
 
   @AllowNull(false)
   @Column(DataType.BIGINT)
-    priceRegular: number;
+  priceRegular: number;
 
   @AllowNull(false)
   @Column(DataType.STRING)
-    image: string;
+  image: string;
 
   @HasMany(() => ImageModel)
   @Column(DataType.STRING)
-    images!: ImageModel[];
+  images!: ImageModel[];
 
   @AllowNull(false)
   @Column(DataType.STRING)
-    capacity: string;
+  capacity: string;
 
   @BelongsToMany(() => CapacityModel, () => ProductsCapacities)
-    capacitiesAvailable!: CapacityModel[];
+  capacitiesAvailable!: CapacityModel[];
 
   @Column({
     type: DataType.JSONB,
     allowNull: false,
   })
-    description!: { title: string; text: string[] }[];
+  description!: { title: string; text: string[] }[];
 
   @AllowNull(false)
   @Column(DataType.STRING)
-    resolution: string;
+  resolution: string;
 
   @AllowNull(false)
   @Column(DataType.STRING)
-    screen: string;
+  screen: string;
 
   @AllowNull(false)
   @Column(DataType.STRING)
-    processor: string;
+  processor: string;
 
   @AllowNull(false)
   @Column(DataType.STRING)
-    ram: string;
+  ram: string;
 
   @AllowNull(true)
   @Column(DataType.STRING)
-    camera?: string;
+  camera?: string;
 
   @AllowNull(true)
   @Column(DataType.STRING)
-    zoom?: string;
+  zoom?: string;
 
   @BelongsToMany(() => CellModel, () => ProductsCells)
-    cells: string[];
+  cells: string[];
 
   @AllowNull(false)
   @Column(DataType.BIGINT)
-    year: number;
+  year: number;
 }

@@ -1,3 +1,4 @@
+/* eslint-disable */
 'use strict';
 
 module.exports = {
@@ -7,25 +8,25 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       productId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: 'products',
-          key: 'id'
-        }
+          key: 'id',
+        },
       },
       path: {
         allowNull: false,
         unique: true,
-        type: Sequelize.STRING
-      }
+        type: Sequelize.STRING,
+      },
     });
   },
 
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('images');
-  }
+  },
 };

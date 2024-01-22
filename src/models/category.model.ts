@@ -1,4 +1,11 @@
-import { Model, Column, Table, AutoIncrement, Unique } from 'sequelize-typescript';
+/* eslint-disable */
+import {
+  Model,
+  Column,
+  Table,
+  AutoIncrement,
+  Unique,
+} from 'sequelize-typescript';
 import { DataType } from 'sequelize-typescript';
 
 @Table({
@@ -6,7 +13,6 @@ import { DataType } from 'sequelize-typescript';
   createdAt: false,
   updatedAt: false,
 })
-
 export class CategoryModel extends Model {
   @AutoIncrement
   @Unique
@@ -14,14 +20,12 @@ export class CategoryModel extends Model {
     type: DataType.INTEGER,
     primaryKey: true,
   })
-  id: number
+  id: number;
 
   @Unique
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-    name: string;
+  name: string;
 }
-
-

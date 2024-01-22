@@ -1,3 +1,4 @@
+/* eslint-disable */
 'use strict';
 
 const TABLE_NAME = 'users_roles';

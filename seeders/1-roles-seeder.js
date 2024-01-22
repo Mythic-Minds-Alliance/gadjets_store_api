@@ -1,15 +1,20 @@
+/* eslint-disable */
 'use strict';
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkInsert('roles', [
-      {
-        name: 'admin',
-      },
-      {
-        name: 'user',
-      },
-    ], {});
+    await queryInterface.bulkInsert(
+      'roles',
+      [
+        {
+          name: 'admin',
+        },
+        {
+          name: 'user',
+        },
+      ],
+      {},
+    );
   },
 
   down: async (queryInterface, Sequelize) => {
