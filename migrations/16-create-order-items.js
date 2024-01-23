@@ -7,14 +7,14 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       order_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: 'orders',
-          key: 'id'
+          key: 'id',
         },
       },
       product_id: {
@@ -22,21 +22,20 @@ module.exports = {
         allowNull: false,
         references: {
           model: 'products',
-          key: 'id'
+          key: 'id',
         },
       },
       quantity: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
       },
       price: {
         type: Sequelize.DECIMAL(10, 2),
-        allowNull: false
-      }
+        allowNull: false,
+      },
     });
-
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('order_items');
-  }
+  },
 };

@@ -1,6 +1,16 @@
-import { AutoIncrement, BelongsTo, Column, DataType, ForeignKey, HasMany, Model, PrimaryKey, Table } from "sequelize-typescript";
-import { UserModel } from "./user.model";
-import { OrderItemsModel } from "./orderItems.model";
+import {
+  AutoIncrement,
+  BelongsTo,
+  Column,
+  DataType,
+  ForeignKey,
+  HasMany,
+  Model,
+  PrimaryKey,
+  Table,
+} from 'sequelize-typescript';
+import { UserModel } from './user.model';
+import { OrderItemsModel } from './orderItems.model';
 
 @Table({
   tableName: 'orders',
