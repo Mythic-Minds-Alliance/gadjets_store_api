@@ -8,6 +8,7 @@ module.exports = {
       [
         {
           categoryId: 1,
+          namespaceId: 'Apple iPhone 7',
           name: 'Apple iPhone 7 32GB Black',
           brand: 'Apple',
           color: 'black',
@@ -47,6 +48,7 @@ module.exports = {
         {
           categoryId: 2,
           brand: 'Apple',
+          namespaceId: 'Apple iPad Pro 11',
           name: 'Apple iPad Pro 11 (2021) 128GB Space Gray',
           capacity: '128GB',
           image: 'img/tablets/apple-ipad-pro-11-2021/spacegray/00.webp',
@@ -86,6 +88,7 @@ module.exports = {
         {
           categoryId: 3,
           brand: 'Apple',
+          namespaceId: 'Apple Watch Series 3',
           name: 'Apple Watch Series 3 38mm Space Gray',
           capacity: '38mm',
           image: 'img/accessories/apple-watch-series-3/space-gray/00.webp',
