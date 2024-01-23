@@ -40,6 +40,7 @@ export class ProductModel extends Model {
   @BelongsTo(() => CategoryModel)
   category: CategoryModel;
 
+
   @AllowNull(false)
   @Column(DataType.STRING)
   namespaceId: string;
@@ -68,8 +69,7 @@ export class ProductModel extends Model {
   @Column(DataType.STRING)
   image: string;
 
-  @HasMany(() => ImageModel)
-  @Column(DataType.STRING)
+  @HasMany(() => ImageModel, 'productId')
   images!: ImageModel[];
 
   @AllowNull(false)

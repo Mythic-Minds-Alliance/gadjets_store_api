@@ -1,12 +1,13 @@
 import { Container, ContainerModule, interfaces } from 'inversify';
-import { ILogger } from './logger/logger.interface';
+import { ILogger } from './interfaces/logger.interface';
 import { App } from './app';
 import { ExceptionFilter } from './errors/exception.filter';
-import { LoggerService } from './logger/logger.service';
-import { UserController } from './users/users.controller';
+import { LoggerService } from './services/logger.service';
+import { UserController } from './controllers/users.controller';
 import { TYPES } from './types/types';
 import { IExceptionFilter } from './errors/exception.filter.interface';
-import { ProductController } from './products/products.controller';
+import { ProductController } from './controllers/products.controller';
+import { SequelizeService } from './services/sequelize.service';
 
 export interface IBootstrapReturn {
   appContainer: Container;
@@ -18,6 +19,7 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
   bind<IExceptionFilter>(TYPES.ExceptionFilter).to(ExceptionFilter);
   bind<UserController>(TYPES.UserController).to(UserController);
   bind<ProductController>(TYPES.ProductController).to(ProductController);
+  bind<SequelizeService>(TYPES.SequelizeService).to(SequelizeService);
   bind<App>(TYPES.Application).to(App);
 });
 
