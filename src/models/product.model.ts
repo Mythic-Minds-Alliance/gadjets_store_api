@@ -40,7 +40,6 @@ export class ProductModel extends Model {
   @BelongsTo(() => CategoryModel)
   category: CategoryModel;
 
-
   @AllowNull(false)
   @Column(DataType.STRING)
   namespaceId: string;
