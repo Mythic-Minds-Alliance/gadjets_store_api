@@ -38,6 +38,5 @@ export class ShoppingCartsModel extends Model {
   user: UserModel;
 
   @HasMany(() => CartItemModel)
-  @Column
   cartItems: CartItemModel[];
 }
