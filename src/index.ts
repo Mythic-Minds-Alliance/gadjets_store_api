@@ -7,6 +7,7 @@ import { UserController } from './users/users.controller';
 import { TYPES } from './types/types';
 import { IExceptionFilter } from './errors/exception.filter.interface';
 import { ProductController } from './products/products.controller';
+import { SequelizeService } from './services/sequelize/sequelize.service';
 
 export interface IBootstrapReturn {
   appContainer: Container;
@@ -18,6 +19,7 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
   bind<IExceptionFilter>(TYPES.ExceptionFilter).to(ExceptionFilter);
   bind<UserController>(TYPES.UserController).to(UserController);
   bind<ProductController>(TYPES.ProductController).to(ProductController);
+  bind<SequelizeService>(TYPES.SequelizeService).to(SequelizeService);
   bind<App>(TYPES.Application).to(App);
 });
 

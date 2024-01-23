@@ -9,6 +9,7 @@ import { injectable, inject } from 'inversify';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import { ProductController } from './products/products.controller';
+import { SequelizeService } from './services/sequelize/sequelize.service';
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ export class App {
 
   constructor(
     @inject(TYPES.ILogger) private logger: ILogger,
+    @inject(TYPES.SequelizeService) private sequelizeService: SequelizeService,
     @inject(TYPES.UserController) private userController: UserController,
     @inject(TYPES.ProductController)
     private productController: ProductController,
