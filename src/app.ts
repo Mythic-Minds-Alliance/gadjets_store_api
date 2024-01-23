@@ -10,7 +10,6 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { ProductController } from './controllers/products.controller';
 import { SequelizeService } from './services/sequelize.service';
-import path from 'path';
 
 dotenv.config();
 
@@ -51,7 +50,8 @@ export class App {
   }
 
   useStaticImg(): void {
-    this.app.use(express.static(path.join(__dirname, 'public/img')));
+    this.app.use(express.static('public'));
+    this.app.use(express.static(__dirname + '/public'));
   }
 
   public async init(): Promise<void> {
