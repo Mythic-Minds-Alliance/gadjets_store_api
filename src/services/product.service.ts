@@ -1,60 +1,66 @@
+import { injectable } from 'inversify';
 import { Op, Sequelize } from 'sequelize';
 import { ProductModel } from '../models/product.model';
+import { IProductService } from '../interfaces/product.interface';
 
-const getAll = (): Promise<ProductModel[]> => {
-  return ProductModel.findAll();
-};
+@injectable()
+export class ProductService implements IProductService {
+  getAll(): Promise<ProductModel[]> {
+    return ProductModel.findAll();
+  }
 
-const getAllByCategory = (categoryId: number): Promise<ProductModel[]> => {
-  return ProductModel.findAll({
-    where: {
-      categoryId,
-    },
-  });
-};
+  findByPk(id: number): Promise<ProductModel | null> {
+    return ProductModel.findOne({
+      where: {
+        id: id,
+        categoryId: 1,
+      },
+    });
+  }
 
-const getRecomended = (
-  id: string,
-  category: string,
-  limit: number,
-): Promise<ProductModel[]> => {
-  return ProductModel.findAll({
-    where: {
-      itemId: { [Op.not]: id },
-      category,
-    },
-    order: [Sequelize.fn('RANDOM')],
-    limit,
-  });
-};
+  getAllByCategory(categoryId: number): Promise<ProductModel[]> {
+    return ProductModel.findAll({
+      where: {
+        categoryId,
+      },
+    });
+  }
 
-const getByYear = (category: string, year: number): Promise<ProductModel[]> => {
-  return ProductModel.findAll({
-    where: {
-      year: year.toString(),
-      category: category,
-    },
-  });
-};
+  getRecomended(
+    id: string,
+    category: string,
+    limit: number,
+  ): Promise<ProductModel[]> {
+    return ProductModel.findAll({
+      where: {
+        itemId: { [Op.not]: id },
+        category,
+      },
+      order: [Sequelize.fn('RANDOM')],
+      limit,
+    });
+  }
 
-const getByDiscount = (limit: number): Promise<ProductModel[]> => {
-  return ProductModel.findAll({
-    order: [
-      [
-        Sequelize.literal(
-          'CAST("priceRegular" AS numeric) - CAST("price" AS numeric)',
-        ),
-        'DESC',
+  getByYear(category: string, year: number): Promise<ProductModel[]> {
+    return ProductModel.findAll({
+      where: {
+        year: year.toString(),
+        category: category,
+      },
+    });
+  }
+
+  getByDiscount(limit: number): Promise<ProductModel[]> {
+    return ProductModel.findAll({
+      order: [
+        [
+          Sequelize.literal(
+            'CAST("priceRegular" AS numeric) - CAST("price" AS numeric)',
+          ),
+          'DESC',
+        ],
       ],
-    ],
-    limit,
-  });
-};
-
-export const productService = {
-  getAll,
-  getAllByCategory,
-  getRecomended,
-  getByYear,
-  getByDiscount,
-};
+      limit,
+    });
+  }
+}

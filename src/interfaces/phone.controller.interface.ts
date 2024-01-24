@@ -7,4 +7,10 @@ export interface IPhoneController {
     res: Response,
     next: NextFunction,
   ) => Promise<ExpressReturnType | undefined>;
+
+  getById: (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => Promise<ExpressReturnType | undefined>;
 }
