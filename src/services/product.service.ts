@@ -5,10 +5,10 @@ const getAll = (): Promise<ProductModel[]> => {
   return ProductModel.findAll();
 };
 
-const getAllByCategory = (category: string): Promise<ProductModel[]> => {
+const getAllByCategory = (categoryId: number): Promise<ProductModel[]> => {
   return ProductModel.findAll({
     where: {
-      category,
+      categoryId,
     },
   });
 };
@@ -37,11 +37,17 @@ const getByYear = (category: string, year: number): Promise<ProductModel[]> => {
   });
 };
 
-const getByDiscount = (discount: number): Promise<ProductModel[]> => {
+const getByDiscount = (limit: number): Promise<ProductModel[]> => {
   return ProductModel.findAll({
-    where: Sequelize.literal(
-      `CAST("priceRegular" AS numeric) - CAST("price" AS numeric) > ${discount}`,
-    ),
+    order: [
+      [
+        Sequelize.literal(
+          'CAST("priceRegular" AS numeric) - CAST("price" AS numeric)',
+        ),
+        'DESC',
+      ],
+    ],
+    limit,
   });
 };
 

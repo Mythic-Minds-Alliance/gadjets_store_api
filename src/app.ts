@@ -9,6 +9,7 @@ import { injectable, inject } from 'inversify';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import { ProductController } from './controllers/products.controller';
+import { PhoneController } from './controllers/phones.controller';
 import { SequelizeService } from './services/sequelize.service';
 
 dotenv.config();
@@ -25,6 +26,8 @@ export class App {
     @inject(TYPES.UserController) private userController: UserController,
     @inject(TYPES.ProductController)
     private productController: ProductController,
+    @inject(TYPES.PhoneController)
+    private phoneController: PhoneController,
     @inject(TYPES.ExceptionFilter) private exceptionFilter: ExceptionFilter,
   ) {
     this.app = express();
@@ -47,6 +50,7 @@ export class App {
   useRoutes(): void {
     this.app.use('/users', this.userController.router);
     this.app.use('/', this.productController.router);
+    this.app.use('/', this.phoneController.router);
   }
 
   useExceptionFilters(): void {
