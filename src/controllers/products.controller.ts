@@ -7,14 +7,17 @@ import { TYPES } from '../types/types';
 import { IProductController } from '../interfaces/products.controller.interface';
 import { ExpressReturnType } from '../interfaces/route.interface';
 import { HTTPError } from '../errors/http-error.class';
-import { productService } from '../services/product.service';
+import { ProductService } from '../services/product.service';
 
 @injectable()
 export class ProductController
   extends BaseController
   implements IProductController
 {
-  constructor(@inject(TYPES.ILogger) private loggerService: ILogger) {
+  constructor(
+    @inject(TYPES.ILogger) private loggerService: ILogger,
+    @inject(TYPES.ProductService) private productService: ProductService,
+  ) {
     super(loggerService);
     this.bindRoutes([
       { path: '/products', method: 'get', func: this.getProducts },
@@ -32,7 +35,7 @@ export class ProductController
       const pageSize: number = parseInt(req.query.size as string) || 10;
       const startIndex = (pageNumber - 1) * pageSize;
       const endIndex = startIndex + pageSize;
-      const productsAll = await productService.getAll();
+      const productsAll = await this.productService.getAll();
 
       return res.send(productsAll.slice(startIndex, endIndex));
     } catch (error: string | any) {
@@ -47,7 +50,7 @@ export class ProductController
   ): Promise<ExpressReturnType | undefined> {
     try {
       const LIMIT = 24;
-      const discountedProducts = await productService.getByDiscount(LIMIT);
+      const discountedProducts = await this.productService.getByDiscount(LIMIT);
 
       return res.send(discountedProducts);
     } catch (error: string | any) {

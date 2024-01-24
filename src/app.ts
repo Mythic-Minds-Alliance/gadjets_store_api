@@ -1,18 +1,18 @@
+import 'reflect-metadata';
+import cors from 'cors';
 import express, { Express } from 'express';
 import { Server } from 'http';
-import { UserController } from './controllers/users.controller';
-import { ExceptionFilter } from './errors/exception.filter';
 import { ILogger } from './interfaces/logger.interface';
 import { TYPES } from './types/types';
-import 'reflect-metadata';
 import { injectable, inject } from 'inversify';
-import dotenv from 'dotenv';
-import cors from 'cors';
+import { ISequelize } from './interfaces/sequelize.interface';
+import { IUserService } from './interfaces/user.interface';
+import { IProductService } from './interfaces/product.interface';
+import { IExceptionFilter } from './errors/exception.filter.interface';
+import { UserController } from './controllers/users.controller';
 import { ProductController } from './controllers/products.controller';
 import { PhoneController } from './controllers/phones.controller';
-import { SequelizeService } from './services/sequelize.service';
-
-dotenv.config();
+import { IConfigService } from './interfaces/config.service.interface';
 
 @injectable()
 export class App {
@@ -22,13 +22,16 @@ export class App {
 
   constructor(
     @inject(TYPES.ILogger) private logger: ILogger,
-    @inject(TYPES.SequelizeService) private sequelizeService: SequelizeService,
+    @inject(TYPES.SequelizeService) private sequelizeService: ISequelize,
+    @inject(TYPES.UserService) private userService: IUserService,
     @inject(TYPES.UserController) private userController: UserController,
+    @inject(TYPES.ProductService) private productService: IProductService,
     @inject(TYPES.ProductController)
     private productController: ProductController,
     @inject(TYPES.PhoneController)
     private phoneController: PhoneController,
-    @inject(TYPES.ExceptionFilter) private exceptionFilter: ExceptionFilter,
+    @inject(TYPES.ExceptionFilter) private exceptionFilter: IExceptionFilter,
+    @inject(TYPES.ConfigService) private configService: IConfigService,
   ) {
     this.app = express();
     this.port = process.env.port;
@@ -37,7 +40,8 @@ export class App {
   useCors(): void {
     this.app.use(
       cors({
-        origin: process.env.CLIENT_URL,
+        origin: this.configService.get('CLIENT_URL'),
+        // origin: process.env.CLIENT_URL,
         credentials: true,
       }),
     );
