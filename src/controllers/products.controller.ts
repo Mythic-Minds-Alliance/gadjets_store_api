@@ -1,13 +1,13 @@
+import 'reflect-metadata';
 import { NextFunction, Request, Response } from 'express';
 import { BaseController } from './base.controller';
 import { inject, injectable } from 'inversify';
 import { ILogger } from '../interfaces/logger.interface';
 import { TYPES } from '../types/types';
-import 'reflect-metadata';
 import { IProductController } from '../interfaces/products.controller.interface';
 import { ExpressReturnType } from '../interfaces/route.interface';
-import { ProductModel } from '../models/product.model';
 import { HTTPError } from '../errors/http-error.class';
+import { productService } from '../services/product.service';
 
 @injectable()
 export class ProductController
@@ -18,6 +18,7 @@ export class ProductController
     super(loggerService);
     this.bindRoutes([
       { path: '/products', method: 'get', func: this.getProducts },
+      { path: '/products/discount', method: 'get', func: this.getDiscount },
     ]);
   }
 
@@ -31,13 +32,25 @@ export class ProductController
       const pageSize: number = parseInt(req.query.size as string) || 10;
       const startIndex = (pageNumber - 1) * pageSize;
       const endIndex = startIndex + pageSize;
-      const productsAll = await ProductModel.findAll();
-      //return res.send(productsAll);
+      const productsAll = await productService.getAll();
+
       return res.send(productsAll.slice(startIndex, endIndex));
     } catch (error: string | any) {
       next(new HTTPError(500, 'Error fetching products', error.message));
-      // console.error('Error fetching products:', error);
-      // res.status(500).send('Internal Server Error');
+    }
+  }
+
+  async getDiscount(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<ExpressReturnType | undefined> {
+    try {
+      const discountedProducts = await productService.getByDiscount(100);
+
+      return res.send(discountedProducts);
+    } catch (error: string | any) {
+      next(new HTTPError(500, 'Error fetching products', error.message));
     }
   }
 }
