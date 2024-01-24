@@ -40,6 +40,10 @@ export class App {
     );
   }
 
+  useMiddleware(): void {
+    this.app.use(express.json());
+  }
+
   useRoutes(): void {
     this.app.use('/users', this.userController.router);
     this.app.use('/', this.productController.router);
@@ -56,6 +60,7 @@ export class App {
 
   public async init(): Promise<void> {
     this.useCors();
+    this.useMiddleware();
     this.useRoutes();
     this.useExceptionFilters();
     this.useStaticImg();

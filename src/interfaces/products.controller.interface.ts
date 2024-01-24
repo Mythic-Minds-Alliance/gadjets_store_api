@@ -7,4 +7,10 @@ export interface IProductController {
     res: Response,
     next: NextFunction,
   ) => Promise<ExpressReturnType | undefined>;
+
+  getDiscount: (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => Promise<ExpressReturnType | undefined>;
 }
