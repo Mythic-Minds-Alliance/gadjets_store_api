@@ -46,7 +46,8 @@ export class ProductController
     next: NextFunction,
   ): Promise<ExpressReturnType | undefined> {
     try {
-      const discountedProducts = await productService.getByDiscount(100);
+      const LIMIT = 24;
+      const discountedProducts = await productService.getByDiscount(LIMIT);
 
       return res.send(discountedProducts);
     } catch (error: string | any) {
