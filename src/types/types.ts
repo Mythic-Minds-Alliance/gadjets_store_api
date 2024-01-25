@@ -9,4 +9,5 @@ export const TYPES = {
   SequelizeService: Symbol('SequelizeService'),
   ExceptionFilter: Symbol.for('ExceptionFilter'),
   ConfigService: Symbol.for('ConfigService'),
+  UsersRepository: Symbol.for('UsersRepository'),
 };

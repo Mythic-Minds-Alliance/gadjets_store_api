@@ -19,6 +19,8 @@ import { ProductService } from './services/product.service';
 import { ISequelize } from './interfaces/sequelize.interface';
 import { IConfigService } from './interfaces/config.service.interface';
 import { ConfigService } from './services/config.service';
+import { IUsersRepository } from './interfaces/users.repository.interface';
+import { UsersRepository } from './repository/users.repository';
 
 export interface IBootstrapReturn {
   appContainer: Container;
@@ -38,6 +40,9 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
     .inSingletonScope();
   bind<IConfigService>(TYPES.ConfigService)
     .to(ConfigService)
+    .inSingletonScope();
+  bind<IUsersRepository>(TYPES.UsersRepository)
+    .to(UsersRepository)
     .inSingletonScope();
   bind<App>(TYPES.Application).to(App);
 });
