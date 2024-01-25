@@ -41,7 +41,6 @@ export class App {
     this.app.use(
       cors({
         origin: this.configService.get('CLIENT_URL'),
-        // origin: process.env.CLIENT_URL,
         credentials: true,
       }),
     );

@@ -18,7 +18,7 @@ import { UsersRolesModel } from './users.roles.model';
 
 @Table({
   tableName: 'users',
-})
+ })
 class UserModel extends Model {
   @AutoIncrement
   @PrimaryKey

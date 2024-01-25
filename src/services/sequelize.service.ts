@@ -13,6 +13,8 @@ import { ProductsCells } from '../models/products_cells.model';
 import { IConfigService } from '../interfaces/config.service.interface';
 import { TYPES } from '../types/types';
 import { ILogger } from '../interfaces/logger.interface';
+import { UserModel } from '../models/user.model';
+import { RoleModel, UsersRolesModel } from '../models/users.roles.model';
 
 @injectable()
 export class SequelizeService implements ISequelize {
@@ -28,12 +30,16 @@ export class SequelizeService implements ISequelize {
       username: this.configService.get('DB_USER'),
       password: this.configService.get('DB_PASSWORD'),
       database: this.configService.get('DB_NAME'),
-      // host: process.env.DB_HOST,
-      // username: process.env.DB_USER,
-      // password: process.env.DB_PASSWORD,
-      // database: process.env.DB_NAME,
       dialectOptions: {
         ssl: true,
+      },
+      define: {
+        scopes: {
+          excludeCreatedAtUpdateAt: {
+            attributes: { exclude: ['createdAt', 'updatedAt'] },
+          },
+        },
+        timestamps: false,
       },
     });
 
@@ -47,6 +53,9 @@ export class SequelizeService implements ISequelize {
       ProductsCapacities,
       CellModel,
       ProductsCells,
+      UserModel,
+      UsersRolesModel,
+      RoleModel,
     ]);
 
     this.logger.log('[Sequelize] Connected to db successfully');
