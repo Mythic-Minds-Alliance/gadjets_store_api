@@ -10,6 +10,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { ProductController } from './products/products.controller';
 import { SequelizeService } from './services/sequelize/sequelize.service';
+import bodyParser from 'body-parser';
 
 dotenv.config();
 
@@ -29,6 +30,15 @@ export class App {
   ) {
     this.app = express();
     this.port = process.env.port;
+    this.configureMiddleware();
+  }
+
+  configureMiddleware(): void {
+    this.app.use(bodyParser.json());
+
+    this.useCors();
+    this.useRoutes();
+    this.useExceptionFilters();
   }
 
   useCors(): void {
@@ -50,9 +60,6 @@ export class App {
   }
 
   public async init(): Promise<void> {
-    this.useCors();
-    this.useRoutes();
-    this.useExceptionFilters();
     this.server = this.app.listen(this.port);
     this.logger.log(
       `Server started on ${process.env.SERVER_HOST}:${this.port}`,

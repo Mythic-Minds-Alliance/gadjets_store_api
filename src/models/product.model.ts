@@ -15,12 +15,12 @@ import {
 } from 'sequelize-typescript';
 import { CategoryModel } from './category.model';
 import { ColorModel } from './colors.model';
-import { ProductsColors } from './products_colors';
 import { ImageModel } from './image.model';
 import { CapacityModel } from './capacity.model';
-import { ProductsCapacities } from './products_capacities.model';
 import { CellModel } from './cell.model';
 import { ProductsCells } from './products_cells.model';
+import { ProductsCapacitiesColorsModel } from './products_capacities_colors.model';
+import { ProductColorImageModel } from './product_color_images.model';
 
 @Table({
   tableName: 'products',
@@ -40,11 +40,6 @@ export class ProductModel extends Model {
   @BelongsTo(() => CategoryModel)
   category: CategoryModel;
 
-
-  @AllowNull(false)
-  @Column(DataType.STRING)
-  namespaceId: string;
-
   @Unique
   @AllowNull(false)
   @Column(DataType.STRING)
@@ -54,30 +49,17 @@ export class ProductModel extends Model {
   @Column(DataType.STRING)
   brand: string;
 
-  @AllowNull(false)
-  @Column(DataType.STRING)
-  color: string;
+  @BelongsToMany(() => ColorModel, () => ProductColorImageModel)
+  colorsAvailable: ColorModel[];
 
-  @BelongsToMany(() => ColorModel, () => ProductsColors)
-  colorsAvailable!: ColorModel[];
-
-  @AllowNull(false)
-  @Column(DataType.BIGINT)
-  priceRegular: number;
-
-  @AllowNull(false)
-  @Column(DataType.STRING)
-  image: string;
-
-  @HasMany(() => ImageModel, 'productId')
-  images!: ImageModel[];
-
-  @AllowNull(false)
-  @Column(DataType.STRING)
-  capacity: string;
-
-  @BelongsToMany(() => CapacityModel, () => ProductsCapacities)
+  @BelongsToMany(() => CapacityModel, () => ProductsCapacitiesColorsModel)
   capacitiesAvailable!: CapacityModel[];
+
+  @HasMany(() => ProductsCapacitiesColorsModel)
+  productPrices: ProductsCapacitiesColorsModel[];
+
+  @HasMany(() => ProductColorImageModel)
+  productColorImages!: ProductColorImageModel[];
 
   @Column({
     type: DataType.JSONB,
@@ -110,7 +92,7 @@ export class ProductModel extends Model {
   zoom?: string;
 
   @BelongsToMany(() => CellModel, () => ProductsCells)
-  cells: string[];
+  cells: CellModel[];
 
   @AllowNull(false)
   @Column(DataType.BIGINT)
