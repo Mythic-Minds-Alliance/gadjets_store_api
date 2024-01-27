@@ -7,10 +7,8 @@ import { UserController } from './controllers/users.controller';
 import { TYPES } from './types/types';
 import { IExceptionFilter } from './errors/exception.filter.interface';
 import { ProductController } from './controllers/products.controller';
-import { PhoneController } from './controllers/phones.controller';
 import { SequelizeService } from './services/sequelize.service';
 import { IUserController } from './interfaces/users.controller.interface';
-import { IPhoneController } from './interfaces/phone.controller.interface';
 import { IProductController } from './interfaces/products.controller.interface';
 import { IUserService } from './interfaces/user.interface';
 import { UserService } from './services/user.service';
@@ -34,7 +32,6 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
   bind<IUserController>(TYPES.UserController).to(UserController);
   bind<IProductService>(TYPES.ProductService).to(ProductService);
   bind<IProductController>(TYPES.ProductController).to(ProductController);
-  bind<IPhoneController>(TYPES.PhoneController).to(PhoneController);
   bind<ISequelize>(TYPES.SequelizeService)
     .to(SequelizeService)
     .inSingletonScope();

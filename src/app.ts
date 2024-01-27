@@ -11,7 +11,6 @@ import { IProductService } from './interfaces/product.interface';
 import { IExceptionFilter } from './errors/exception.filter.interface';
 import { UserController } from './controllers/users.controller';
 import { ProductController } from './controllers/products.controller';
-import { PhoneController } from './controllers/phones.controller';
 import { IConfigService } from './interfaces/config.service.interface';
 
 @injectable()
@@ -28,13 +27,12 @@ export class App {
     @inject(TYPES.ProductService) private productService: IProductService,
     @inject(TYPES.ProductController)
     private productController: ProductController,
-    @inject(TYPES.PhoneController)
-    private phoneController: PhoneController,
     @inject(TYPES.ExceptionFilter) private exceptionFilter: IExceptionFilter,
     @inject(TYPES.ConfigService) private configService: IConfigService,
   ) {
     this.app = express();
     this.port = process.env.port;
+    this.configureMiddleware();
   }
 
   useCors(): void {
@@ -46,14 +44,17 @@ export class App {
     );
   }
 
-  useMiddleware(): void {
+  configureMiddleware(): void {
     this.app.use(express.json());
+    this.useCors();
+    this.useRoutes();
+    this.useExceptionFilters();
+    this.useStaticImg();
   }
 
   useRoutes(): void {
     this.app.use('/users', this.userController.router);
     this.app.use('/', this.productController.router);
-    this.app.use('/', this.phoneController.router);
   }
 
   useExceptionFilters(): void {
@@ -66,11 +67,6 @@ export class App {
   }
 
   public async init(): Promise<void> {
-    this.useCors();
-    this.useMiddleware();
-    this.useRoutes();
-    this.useExceptionFilters();
-    this.useStaticImg();
     this.server = this.app.listen(this.port);
     this.logger.log(
       `Server started on ${process.env.SERVER_HOST}:${this.port}`,

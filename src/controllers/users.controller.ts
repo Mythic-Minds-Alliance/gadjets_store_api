@@ -46,7 +46,10 @@ export class UserController extends BaseController implements IUserController {
     if (!result) {
       return next(new HTTPError(401, 'authorization error', 'login'));
     }
-    const jwt = this.signJWT(body.email, this.congifService.get('SECRET'));
+    const jwt = await this.signJWT(
+      body.email,
+      this.congifService.get('SECRET'),
+    );
     this.ok(res, { jwt });
   }
 
