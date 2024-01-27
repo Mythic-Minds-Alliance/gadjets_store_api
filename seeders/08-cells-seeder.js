@@ -37,6 +37,12 @@ module.exports = {
           type: 'EVDO',
         },
         {
+          type: 'Wi-Fi',
+        },
+        {
+          type: 'Bluetooth',
+        },
+        {
           type: 'Not applicable',
         },
       ],

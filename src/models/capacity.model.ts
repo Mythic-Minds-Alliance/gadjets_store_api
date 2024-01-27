@@ -8,7 +8,11 @@ import {
   AllowNull,
   PrimaryKey,
   Unique,
+  BelongsToMany,
 } from 'sequelize-typescript';
+import { ProductModel } from './product.model';
+import { ColorModel } from './colors.model';
+import { ProductsCapacitiesColorsModel } from './products_capacities_colors.model';
 
 @Table({
   tableName: 'capacities',
@@ -25,4 +29,10 @@ export class CapacityModel extends Model {
   @AllowNull(false)
   @Column(DataType.STRING)
   capacity: string;
+
+  @BelongsToMany(() => ProductModel, () => ProductsCapacitiesColorsModel)
+  products!: ProductModel[];
+
+  @BelongsToMany(() => ColorModel, () => ProductsCapacitiesColorsModel)
+  colors!: ColorModel[];
 }

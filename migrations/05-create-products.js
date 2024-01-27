@@ -19,11 +19,8 @@ module.exports = {
           model: 'categories',
           key: 'id',
         },
-      },
-      namespaceId: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: false,
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       name: {
         type: Sequelize.STRING,
@@ -31,22 +28,6 @@ module.exports = {
         unique: true,
       },
       brand: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      color: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      priceRegular: {
-        type: Sequelize.BIGINT,
-        allowNull: false,
-      },
-      image: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      capacity: {
         type: Sequelize.STRING,
         allowNull: false,
       },

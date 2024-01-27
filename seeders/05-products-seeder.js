@@ -7,57 +7,47 @@ module.exports = {
       'products',
       [
         {
-          categoryId: 1,
-          namespaceId: 'Apple iPhone 7',
-          name: 'Apple iPhone 7 32GB Black',
+          name: 'Apple iPhone 11',
           brand: 'Apple',
-          color: 'black',
-          priceRegular: 400,
-          image: 'img/phones/apple-iphone-7/black/00.webp',
-          capacity: '32GB',
+          categoryId: 1,
           description: JSON.stringify([
             {
-              title: 'And then there was Pro',
               text: [
                 'A transformative triple-camera system that adds tons of capability without complexity.',
                 'An unprecedented leap in battery life. And a mind-blowing chip that doubles down on machine learning and pushes the boundaries of what a smartphone can do. Welcome to the first iPhone powerful enough to be called Pro.',
               ],
+              title: 'And then there was Pro',
             },
             {
-              title: 'Camera',
               text: [
                 'Meet the first triple-camera system to combine cutting-edge technology with the legendary simplicity of iPhone. Capture up to four times more scene. Get beautiful images in drastically lower light. Shoot the highest-quality video in a smartphone — then edit with the same tools you love for photos. You’ve never shot with anything like it.',
               ],
+              title: 'Camera',
             },
             {
-              title:
-                'Shoot it. Flip it. Zoom it. Crop it. Cut it. Light it. Tweak it. Love it.',
               text: [
                 'iPhone 11 Pro lets you capture videos that are beautifully true to life, with greater detail and smoother motion. Epic processing power means it can shoot 4K video with extended dynamic range and cinematic video stabilization — all at 60 fps. You get more creative control, too, with four times more scene and powerful new editing tools to play with.',
               ],
+              title:
+                'Shoot it. Flip it. Zoom it. Crop it. Cut it. Light it. Tweak it. Love it.',
             },
           ]),
-          screen: "4.7' IPS",
-          resolution: '1334x750',
-          processor: 'Apple A10',
-          ram: '2GB',
-          camera: '12 Mp + 7 Mp',
+          resolution: '1792x828',
+          screen: "6.1' IPS",
+          processor: 'Apple A13 Bionic',
+          ram: '4GB',
+          camera: '12 Mp + 12 Mp + 12MP',
           zoom: 'Digital, 5x',
-          year: 2016,
+          year: '2016',
         },
         {
-          categoryId: 2,
+          name: 'Apple iPad Pro 11 (2021)',
           brand: 'Apple',
-          namespaceId: 'Apple iPad Pro 11',
-          name: 'Apple iPad Pro 11 (2021) 128GB Space Gray',
-          capacity: '128GB',
-          image: 'img/tablets/apple-ipad-pro-11-2021/spacegray/00.webp',
-          priceRegular: 799,
-          color: 'spacegray',
+          categoryId: 2,
           description: JSON.stringify([
             {
               title: 'Powerful Performance',
-              text: [
+              tex: [
                 'Experience incredible power and performance with the Apple iPad Pro 11. With the M1 chip, it delivers a new level of performance, making it faster and more efficient than ever before.',
                 "Whether you're editing photos, designing artwork, or multitasking with demanding apps, the iPad Pro 11 handles it all with ease.",
               ],
@@ -77,23 +67,18 @@ module.exports = {
               ],
             },
           ]),
-          screen: "11' Liquid Retina",
           resolution: '2388x1668',
+          screen: "11' Liquid Retina",
           processor: 'Apple M1',
           ram: '8GB',
           camera: '12MP + 12MP',
           zoom: 'Digital zoom up to 5x',
-          year: 2021,
+          year: '2021',
         },
         {
-          categoryId: 3,
+          name: 'Apple Watch Series 3',
           brand: 'Apple',
-          namespaceId: 'Apple Watch Series 3',
-          name: 'Apple Watch Series 3 38mm Space Gray',
-          capacity: '38mm',
-          image: 'img/accessories/apple-watch-series-3/space-gray/00.webp',
-          priceRegular: 199,
-          color: 'space gray',
+          categoryId: 3,
           description: JSON.stringify([
             {
               title: 'Monitor your health',
@@ -114,11 +99,11 @@ module.exports = {
               ],
             },
           ]),
-          screen: "1.3' OLED",
           resolution: '272x340',
+          screen: "1.3' OLED",
           processor: 'Apple S3',
           ram: '768MB',
-          year: 2017,
+          year: '2021',
         },
       ],
       {},
@@ -126,6 +111,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await ProductModel.destroy({ where: {} });
+    await queryInterface.bulkDelete('products', null, {});
   },
 };

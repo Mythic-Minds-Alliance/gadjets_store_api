@@ -4,10 +4,8 @@ import { UserModel, UsersRolesModel } from './users.roles.model';
 import { RoleModel } from './user.model';
 import { CategoryModel } from './category.model';
 import { ColorModel } from './colors.model';
-import { ProductsColors } from './products_colors';
 import { ImageModel } from './image.model';
 import { CapacityModel } from './capacity.model';
-import { ProductsCapacities } from './products_capacities.model';
 import { CellModel } from './cell.model';
 import { ProductsCells } from './products_cells.model';
 import { ShoppingCartsModel } from './shoppingCarts.model';
@@ -23,10 +21,8 @@ export const models = [
   CategoryModel,
   ProductModel,
   ColorModel,
-  ProductsColors,
   ImageModel,
   CapacityModel,
-  ProductsCapacities,
   CellModel,
   ProductsCells,
   ShoppingCartsModel,
