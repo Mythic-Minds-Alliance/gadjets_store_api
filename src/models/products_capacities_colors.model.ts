@@ -19,33 +19,32 @@ import { ProductModel } from './product.model';
   updatedAt: false,
 })
 export class ProductsCapacitiesColorsModel extends Model {
-
   @ForeignKey(() => ProductModel)
   @Column(DataType.INTEGER)
-    productId: number;
+  productId: number;
 
   @ForeignKey(() => CapacityModel)
   @Column(DataType.INTEGER)
-    capacityId: number;
+  capacityId: number;
 
   @ForeignKey(() => ColorModel)
   @Column(DataType.INTEGER)
-    colorId: number;
+  colorId: number;
 
   @AllowNull(false)
   @Column(DataType.BIGINT)
-    price: number;
+  price: number;
 
   @AllowNull(false)
   @Column(DataType.BIGINT)
-    priceDiscount: number;
+  priceDiscount: number;
 
   @BelongsTo(() => ProductModel)
-    product: ProductModel;
+  product: ProductModel;
 
   @BelongsTo(() => CapacityModel)
-    capacity: CapacityModel;
+  capacity: CapacityModel;
 
   @BelongsTo(() => ColorModel)
-    color: ColorModel;
+  color: ColorModel;
 }

@@ -11,6 +11,8 @@ import cors from 'cors';
 import { ProductController } from './products/products.controller';
 import { SequelizeService } from './services/sequelize/sequelize.service';
 import bodyParser from 'body-parser';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUI from 'swagger-ui-express';
 
 dotenv.config();
 
@@ -48,6 +50,28 @@ export class App {
         credentials: true,
       }),
     );
+
+    this.setupSwagger();
+  }
+
+  setupSwagger(): void {
+    const options = {
+      definition: {
+        openapi: '3.0.0',
+        info: {
+          title: 'Gadjets Store API',
+          version: '1.0.0',
+        },
+      },
+      apis: [
+        'src/users/users.controller.ts',
+        'src/products/products.controller.ts',
+      ],
+    };
+
+    const swaggerSpec = swaggerJSDoc(options);
+
+    this.app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
   }
 
   useRoutes(): void {

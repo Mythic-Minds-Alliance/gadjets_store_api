@@ -26,19 +26,19 @@ export class ProductColorImageModel extends Model {
 
   @ForeignKey(() => ProductModel)
   @Column(DataType.INTEGER)
-    productId: number;
+  productId: number;
 
   @ForeignKey(() => ColorModel)
   @Column(DataType.INTEGER)
-    colorId: number;
+  colorId: number;
 
   @AllowNull(false)
   @Column(DataType.STRING)
-    imageUrl: string;
+  imageUrl: string;
 
   @BelongsTo(() => ProductModel)
-    product: ProductModel;
+  product: ProductModel;
 
   @BelongsTo(() => ColorModel, 'colorId')
-    color: ColorModel;
+  color: ColorModel;
 }

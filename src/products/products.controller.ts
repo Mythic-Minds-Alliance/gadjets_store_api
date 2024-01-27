@@ -5,17 +5,17 @@ import { ILogger } from '../logger/logger.interface';
 import { TYPES } from '../types/types';
 import 'reflect-metadata';
 import { IProductController } from './products.controller.interface';
-import { ExpressReturnType } from '../common/route.interface';
-import { ProductModel } from '../models/product.model';
-import { ColorModel } from '../models/colors.model';
-import { CapacityModel } from '../models/capacity.model';
-import { CellModel } from '../models/cell.model';
-import { ProductsCells } from '../models/products_cells.model';
-import { ProductsCapacitiesColorsModel } from '../models/products_capacities_colors.model';
-import { ProductColorImageModel } from '../models/product_color_images.model';
-import { IsArray, Sequelize } from 'sequelize-typescript';
-import { Model } from 'sequelize';
 import { SequelizeService } from '../services/sequelize/sequelize.service';
+
+interface Filter {
+  productId?: number;
+  categoryId?: number[];
+  color?: string;
+  capacity?: string;
+  brand?: string;
+  ram?: string;
+  year?: number;
+}
 
 @injectable()
 export class ProductController
@@ -29,26 +29,143 @@ export class ProductController
     ]);
   }
 
+  private readonly validFields = [
+    'productId',
+    'categoryId',
+    'color',
+    'capacity',
+    'brand',
+    'ram',
+    'year',
+    'sort',
+    'sortBy',
+    'limit',
+    'offset',
+  ];
+
+  /**
+   * @swagger
+   * /products:
+   *   get:
+   *     summary: Retrieve a list of products
+   *     description: Retrieve a list of products. Can be used to populate a list of fake products when prototyping or testing an API.
+   *     parameters:
+   *       - in: query
+   *         name: productId
+   *         schema:
+   *           type: integer
+   *         description: The product ID.
+   *       - in: query
+   *         name: categoryId
+   *         schema:
+   *           type: integer
+   *         description: The category ID.
+   *       - in: query
+   *         name: color
+   *         schema:
+   *           type: string
+   *         description: The color of the product, look into the /colors request for all colors
+   *       - in: query
+   *         name: capacity
+   *         schema:
+   *           type: string
+   *         description: The capacity of the product, look into the /capacities request for all capacities. Capacity needs categoryId to work!
+   *       - in: query
+   *         name: brand
+   *         schema:
+   *           type: string
+   *         description: The brand of the product.
+   *       - in: query
+   *         name: ram
+   *         schema:
+   *           type: string
+   *         description: The RAM of the product.
+   *       - in: query
+   *         name: year
+   *         schema:
+   *           type: integer
+   *         description: The year of the product.
+   *       - in: query
+   *         name: sort
+   *         description: |
+   *            The sort order. Sort order can not exist without sortBy query param!
+   *            Possible sort orders: ASC or DESC. Default sort=ASC
+   *         schema:
+   *            type: string
+   *       - in: query
+   *         name: sortBy
+   *         schema:
+   *           type: string
+   *         description: |
+   *            The field to sort by. Possible sortBy orders: price, priceDiscount, capacity, ram and year!
+   *       - in: query
+   *         name: limit
+   *         schema:
+   *           type: integer
+   *         description: The number of records to return.
+   *       - in: query
+   *         name: offset
+   *         schema:
+   *           type: integer
+   *         description: The number of records to skip for pagination.
+   *     responses:
+   *       200:
+   *         description: A list of products.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: array
+   *               items:
+   *                 $ref: 'product.model.ts'
+   */
+  private validateSort(sort: unknown): string {
+    if (typeof sort !== 'string' || (sort !== 'ASC' && sort !== 'DESC')) {
+      throw new Error(
+        'Parameter "sort" should be a string with value "ASC" or "DESC".',
+      );
+    }
+    return sort;
+  }
+
+  private validateSortBy(sortBy: unknown): string {
+    if (typeof sortBy !== 'string' || !sortBy.trim()) {
+      throw new Error('Parameter "sortBy" should be a non-empty string.');
+    }
+    return sortBy;
+  }
+
+  private validateCategoryId(sortBy: string, filter: Filter): void {
+    if (sortBy === 'capacity' && !filter.categoryId) {
+      throw new Error('CategoryId is required when sorting by capacity.');
+    }
+  }
+
+  private validateQueryParameters(query: Record<string, unknown>): void {
+    Object.keys(query).forEach((key) => {
+      if (!this.validFields.includes(key)) {
+        throw new Error(`Invalid query parameter: ${key}`);
+      }
+    });
+  }
+
+  private parseCategoryId(categoryId: unknown): number[] | undefined {
+    if (!categoryId) return undefined;
+
+    if (typeof categoryId === 'string') {
+      return categoryId.split(',').map(Number);
+    } else if (Array.isArray(categoryId)) {
+      return categoryId.map(Number);
+    }
+
+    return undefined;
+  }
+
   async getProductsByProps(
     req: Request,
     res: Response,
     next: NextFunction,
-  ): Promise<ExpressReturnType | undefined> {
+  ): Promise<void> {
     try {
-      const validFields = [
-        'productId',
-        'categoryId',
-        'color',
-        'capacity',
-        'brand',
-        'ram',
-        'year',
-        'sort',
-        'sortBy',
-        'limit',
-        'offset',
-      ];
-
       const {
         productId,
         categoryId,
@@ -59,58 +176,39 @@ export class ProductController
         year,
         sort = 'ASC',
         sortBy = '',
-        limit = 100,
-        offset = 0,
+        limit = '100',
+        offset = '0',
       } = req.query;
+
+      const filter: Filter = {
+        productId: productId ? +productId : undefined,
+        categoryId: this.parseCategoryId(categoryId),
+        color: color as string,
+        capacity: capacity as string,
+        brand: brand as string,
+        ram: ram as string,
+        year: year ? +year : undefined,
+      };
+
+      this.validateQueryParameters(req.query);
+      const validatedSort = this.validateSort(sort);
+      const validatedSortBy = this.validateSortBy(sortBy);
+      this.validateCategoryId(validatedSortBy, filter);
+
       const sequelizeService = new SequelizeService();
-
-      Object.keys(req.query).forEach((key) => {
-        if (!validFields.includes(key)) {
-          throw new Error(`Invalid query parameter: ${key}`);
-        }
-      });
-
-      const filter: any = {};
-      if (productId) filter.productId = +productId;
-      if (color) filter.color = color;
-      if (capacity) filter.capacity = capacity;
-      if (brand) filter.brand = brand;
-      if (ram) filter.ram = ram;
-      if (year) filter.year = +year;
-      if (categoryId) {
-        if (typeof categoryId === 'string') {
-          filter.categoryId = categoryId.split(',').map(Number);
-        } else if (Array.isArray(categoryId)) {
-          filter.categoryId = categoryId.map(Number);
-        }
-      }
-      if (typeof sort !== 'string') {
-        throw new Error(
-          'parameter sort should be string with value ASC or DESC!',
-        );
-      }
-
-      if (typeof sortBy !== 'string') {
-        throw new Error(
-          'parameter sortBy should be string and property should exist!',
-        );
-      }
-
       const product = await sequelizeService.getProductsByProps(
         filter,
-        Number(limit),
-        Number(offset),
-        sort,
-        sortBy,
+        +limit,
+        +offset,
+        validatedSort,
+        validatedSortBy,
       );
 
       if (product.length === 0) {
-        throw new Error(
-          'Yoi! you made a mistake in your query parameter or parameters! Take a better look into your model!',
-        );
+        throw new Error('No products found with the given parameters.');
       }
 
-      return res.json(product);
+      res.json(product);
     } catch (err) {
       next(err);
     }

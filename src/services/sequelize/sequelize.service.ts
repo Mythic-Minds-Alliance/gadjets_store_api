@@ -3,7 +3,6 @@
 import { injectable } from 'inversify';
 import { Sequelize } from 'sequelize-typescript';
 import { ISequelize } from './sequelize.interface';
-import { models } from '../../models/index';
 import { ProductModel } from '../../models/product.model';
 import { CategoryModel } from '../../models/category.model';
 import { ColorModel } from '../../models/colors.model';
@@ -13,7 +12,7 @@ import { CellModel } from '../../models/cell.model';
 import { ProductsCells } from '../../models/products_cells.model';
 import { ProductsCapacitiesColorsModel } from '../../models/products_capacities_colors.model';
 import { ProductColorImageModel } from '../../models/product_color_images.model';
-import { QueryTypes } from 'sequelize';
+import { ProductResult } from './productResult.interface';
 
 @injectable()
 export class SequelizeService implements ISequelize {
@@ -40,131 +39,151 @@ export class SequelizeService implements ISequelize {
       ProductColorImageModel,
     ]);
   }
+  private getSortField(
+    field: string | undefined,
+    categoryId: number | undefined,
+  ): string {
+    switch (field) {
+      case 'price':
+      case 'priceDiscount':
+        return `productCapacitiesColorsPrices."${field}"`;
+
+      case 'capacity':
+        return this.getCapacitySortField(categoryId);
+
+      case 'ram':
+        return `CASE
+                  WHEN product."${field}" LIKE '%GB' THEN CAST(SUBSTRING(product."${field}", '([0-9]+)') AS INTEGER) * 1000
+                  WHEN product."${field}" LIKE '%MB' THEN CAST(SUBSTRING(product."${field}", '([0-9]+)') AS INTEGER)
+                END`;
+
+      case 'year':
+        return `product."year"`;
+
+      default:
+        throw new Error(`Invalid field: ${field}`);
+    }
+  }
+
+  private getCapacitySortField(categoryId: number | undefined): string {
+    if (Number(categoryId) === 3) {
+      return `CAST(SUBSTRING(capacity."capacity", '([0-9]+)') AS INTEGER)`;
+    } else {
+      return `CASE
+                  WHEN capacity."capacity" LIKE '%TB' THEN CAST(SUBSTRING(capacity."capacity", '([0-9]+)') AS INTEGER) * 1000
+                  WHEN capacity."capacity" LIKE '%GB' THEN CAST(SUBSTRING(capacity."capacity", '([0-9]+)') AS INTEGER)
+                  WHEN capacity."capacity" LIKE '%MB' THEN CAST(SUBSTRING(capacity."capacity", '([0-9]+)') AS INTEGER) / 1000
+                END`;
+    }
+  }
 
   async getProductsByProps(
-    this: any,
     filter?: any,
     limit?: number,
     offset?: number,
     sort?: string,
     sortBy?: string,
-  ) {
+  ): Promise<ProductResult[]> {
     let query = `
       WITH product_colors AS (
         SELECT
-            p.id AS product_id,
-            ARRAY_AGG(DISTINCT cl.name) AS colorsAvailable
+            product.id AS product_id,
+            ARRAY_AGG(DISTINCT color.name) AS colorsAvailable
         FROM
-            products p
+            products product
         JOIN
-            products_capacities_colors_prices pccp ON p.id = pccp."productId"
+            products_capacities_colors_prices productCapacitiesColorsPrices ON product.id = productCapacitiesColorsPrices."productId"
         JOIN
-            colors cl ON pccp."colorId" = cl.id
+            colors color ON productCapacitiesColorsPrices."colorId" = color.id
         GROUP BY
-            p.id
+            product.id
       ),
       product_cells AS (
         SELECT
-            pc."productId",
-            ARRAY_AGG(c.type) AS cells
+            productColors."productId",
+            ARRAY_AGG(cell.type) AS cells
         FROM
-            products_cells pc
+            products_cells productColors
         JOIN
-            cells c ON pc."cellId" = c.id
+            cells cell ON productColors."cellId" = cell.id
         GROUP BY
-            pc."productId"
+            productColors."productId"
       ),
       product_images AS (
         SELECT
-            pci."productId",
-            pci."colorId",
-            ARRAY_AGG(DISTINCT pci."imageUrl") AS images
+            productColorImages."productId",
+            productColorImages."colorId",
+            ARRAY_AGG(DISTINCT productColorImages."imageUrl") AS images
         FROM
-            product_color_images pci
+            product_color_images productColorImages
         GROUP BY
-            pci."productId", pci."colorId"
+            productColorImages."productId", productColorImages."colorId"
       ),
       product_capacities AS (
         SELECT
-            p.id AS product_id,
-            ARRAY_AGG(DISTINCT c.capacity) AS capacitiesAvailable
+            product.id AS product_id,
+            ARRAY_AGG(DISTINCT capacity.capacity) AS capacitiesAvailable
         FROM
-            products p
+            products product
         JOIN
-            products_capacities_colors_prices pccp ON p.id = pccp."productId"
+            products_capacities_colors_prices productCapacitiesColorsPrices ON product.id = productCapacitiesColorsPrices."productId"
         JOIN
-            capacities c ON pccp."capacityId" = c.id
+            capacities capacity ON productCapacitiesColorsPrices."capacityId" = capacity.id
         GROUP BY
-            p.id
+            product.id
       )
       SELECT
-          p.id,
-          CONCAT(p.name, ' ', c.capacity, ' ', CONCAT(UPPER(LEFT(cl.name, 1)), SUBSTRING(cl.name, 2))) AS name,
-          c.capacity,
-          cl.name AS color,
-          pc.colorsAvailable,
-          pccp."price",
-          pccp."priceDiscount",
-          p.brand,
-          p."categoryId",
-          p.description,
-          p.resolution,
-          p.screen,
-          p.processor,
-          p.ram,
-          p.camera,
-          p.zoom,
-          p.year,
-          pcl.cells,
-          pi.images,
-          pcp.capacitiesAvailable
+          product.id,
+          CONCAT(product.name, ' ', capacity.capacity, ' ', CONCAT(UPPER(LEFT(color.name, 1)), SUBSTRING(color.name, 2))) AS name,
+          capacity.capacity,
+          color.name AS color,
+          productColors.colorsAvailable,
+          productCapacitiesColorsPrices."price",
+          productCapacitiesColorsPrices."priceDiscount",
+          product.brand,
+          product."categoryId",
+          product.description,
+          product.resolution,
+          product.screen,
+          product.processor,
+          product.ram,
+          product.camera,
+          product.zoom,
+          product.year,
+          productCell.cells,
+          productImage.images,
+          productCapacity.capacitiesAvailable
       FROM
-          products p
+          products product
       JOIN
-          products_capacities_colors_prices pccp ON p.id = pccp."productId"
+          products_capacities_colors_prices productCapacitiesColorsPrices ON product.id = productCapacitiesColorsPrices."productId"
       JOIN
-          capacities c ON pccp."capacityId" = c.id
+          capacities capacity ON productCapacitiesColorsPrices."capacityId" = capacity.id
       JOIN
-          colors cl ON pccp."colorId" = cl.id
+          colors color ON productCapacitiesColorsPrices."colorId" = color.id
       JOIN
-          product_colors pc ON p.id = pc.product_id
+          product_colors productColors ON product.id = productColors.product_id
       LEFT JOIN
-          product_cells pcl ON p.id = pcl."productId"
+          product_cells productCell ON product.id = productCell."productId"
       LEFT JOIN
-          product_images pi ON p.id = pi."productId" AND cl.id = pi."colorId"
+          product_images productImage ON product.id = productImage."productId" AND color.id = productImage."colorId"
       JOIN
-          product_capacities pcp ON p.id = pcp.product_id
+          product_capacities productCapacity ON product.id = productCapacity.product_id
       WHERE
           1=1
   `;
 
     Object.keys(filter).forEach((key) => {
       if (filter[key]) {
-        if (key === 'productId') {
-          query += ` AND p.id = :${key}`;
-        } else if (key === 'color') {
-          query += ` AND cl.name = :${key}`;
-        } else if (key === 'categoryId') {
-          if (Array.isArray(filter[key])) {
-            query += ` AND p."categoryId" IN (:${key})`;
-          }
-        } else if (key === 'brand') {
-          query += ` AND p.brand = :${key}`;
-        } else if (key === 'capacity') {
-          query += ` AND c.capacity = :${key}`;
-        } else if (key === 'ram') {
-          query += ` AND p.ram = :${key}`;
-        } else if (key === 'year') {
-          query += ` AND p.year = :${key}`;
-        }
+        query += this.buildFilterCondition(key, filter[key]);
       }
     });
 
     if (sortBy) {
       query += `
         ORDER BY
-            ${getSortField(sortBy)} ${sort},
-            p.id, c.id, cl.id
+            ${this.getSortField(sortBy, filter.categoryId)} ${sort},
+            product.id, capacity.id, color.id
       `;
     }
 
@@ -173,31 +192,45 @@ export class SequelizeService implements ISequelize {
   `;
 
     const replacements = { ...filter, limit, offset };
-    if (!Number.isInteger(limit) || Number(limit) < 1) {
-      throw new Error('Limit must be a positive integer');
-    }
-    if (!Number.isInteger(offset) || Number(offset) < 0) {
-      throw new Error('Offset must be a non-negative integer');
-    }
+    this.validateLimits(replacements);
 
     const [results] = await this.sequelize.query(query, {
       replacements,
     });
 
-    return results;
+    return results as ProductResult[];
   }
-}
 
-function getSortField(field?: string) {
-  switch (field) {
-    case 'price':
-    case 'priceDiscount':
-      return `pccp."${field}"`;
-    case 'capacity':
-      return `CAST(SUBSTRING(c."${field}", '([0-9]+)') AS INTEGER)`;
-    case 'ram':
-      return `CAST(SUBSTRING(p."${field}", '([0-9]+)') AS INTEGER)`;
-    case 'year':
-      return `p."year"`;
+  private buildFilterCondition(key: string, value: any): string {
+    switch (key) {
+      case 'productId':
+        return ` AND product.id = :${key}`;
+      case 'color':
+        return ` AND color.name = :${key}`;
+      case 'categoryId':
+        return Array.isArray(value)
+          ? ` AND product."categoryId" IN (:${key})`
+          : '';
+      case 'brand':
+        return ` AND product.brand = :${key}`;
+      case 'capacity':
+        return ` AND capacity.capacity = :${key}`;
+      case 'ram':
+        return ` AND product.ram = :${key}`;
+      case 'year':
+        return ` AND product.year = :${key}`;
+      default:
+        throw new Error(`Invalid filter key: ${key}`);
+    }
+  }
+
+  private validateLimits(replacements: any): void {
+    if (!Number.isInteger(replacements.limit) || replacements.limit < 1) {
+      throw new Error('Limit must be a positive integer');
+    }
+
+    if (!Number.isInteger(replacements.offset) || replacements.offset < 0) {
+      throw new Error('Offset must be a non-negative integer');
+    }
   }
 }
