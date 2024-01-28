@@ -8,4 +8,5 @@ export const TYPES = {
   ExceptionFilter: Symbol.for('ExceptionFilter'),
   ConfigService: Symbol.for('ConfigService'),
   UsersRepository: Symbol.for('UsersRepository'),
+  AuthGuard: Symbol.for('AuthGuard'),
 };

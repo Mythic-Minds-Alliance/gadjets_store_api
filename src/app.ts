@@ -12,6 +12,7 @@ import { UserController } from './controllers/users.controller';
 import { ProductController } from './controllers/products.controller';
 import { IConfigService } from './interfaces/config.service.interface';
 import { AuthMiddleware } from './middlewares/auth.middleware';
+import { AuthGuard } from './middlewares/auth.guard';
 
 @injectable()
 export class App {
@@ -28,6 +29,7 @@ export class App {
     private productController: ProductController,
     @inject(TYPES.ExceptionFilter) private exceptionFilter: IExceptionFilter,
     @inject(TYPES.ConfigService) private configService: IConfigService,
+    @inject(TYPES.AuthGuard) private authGuard: AuthGuard,
   ) {
     this.app = express();
     this.port = this.configService.get('PORT');

@@ -47,4 +47,50 @@ export class UsersRepository implements IUsersRepository {
       },
     });
   }
+
+  async getRoleId(userId: number): Promise<number | null> {
+    try {
+      const userRole = await UsersRolesModel.findOne({
+        where: {
+          userId: userId,
+        },
+      });
+
+      return userRole ? userRole.roleId : null;
+    } catch (error) {
+      console.error('Error on getting role ID by user ID:', error);
+      throw error;
+    }
+  }
+
+  async getRole(roleId: number): Promise<string | null> {
+    try {
+      const role = await RoleModel.findOne({
+        where: {
+          id: roleId,
+        },
+      });
+
+      return role ? role.name : null;
+    } catch (error) {
+      console.error('Error on getting role name by role ID:', error);
+      throw error;
+    }
+  }
+
+  async getUserRole(userId: number): Promise<Role | null> {
+    try {
+      const userRole = await UsersRolesModel.findOne({
+        where: {
+          userId: userId,
+        },
+        include: [{ model: RoleModel, attributes: ['id', 'name'], as: 'Role' }],
+      });
+
+      return userRole ? (userRole.get('Role') as Role) : null;
+    } catch (error) {
+      console.error('Error on getting user role:', error);
+      throw error;
+    }
+  }
 }
