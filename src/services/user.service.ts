@@ -18,11 +18,12 @@ export class UserService implements IUserService {
 
   async createUser({
     email,
-    name,
+    firstName,
+    lastName,
     password,
   }: UserRegisterDto): Promise<UserModel | null> {
-    console.log(email, name);
-    const newUser = new User(email, name);
+    console.log(email, firstName, lastName);
+    const newUser = new User(email, firstName, lastName);
     const salt = this.configService.get('SALT');
     await newUser.setPassword(password, Number(salt));
     const existedUser = await this.usersRepository.find(email);

@@ -133,11 +133,11 @@ export class ProductController
     return sort;
   }
 
-  private validateSortBy(sortBy: unknown): string {
-    if (typeof sortBy !== 'string' || !sortBy.trim()) {
-      throw new Error('Parameter "sortBy" should be a non-empty string.');
+  private validateSortBy(sortBy: unknown): string | undefined {
+    if (typeof sortBy === 'string' && sortBy.trim()) {
+      return sortBy;
     }
-    return sortBy;
+    return undefined;
   }
 
   private validateCategoryId(sortBy: string, filter: Filter): void {
@@ -199,7 +199,10 @@ export class ProductController
       this.validateQueryParameters(req.query);
       const validatedSort = this.validateSort(sort);
       const validatedSortBy = this.validateSortBy(sortBy);
-      this.validateCategoryId(validatedSortBy, filter);
+
+      if (validatedSortBy !== undefined) {
+        this.validateCategoryId(validatedSortBy, filter);
+      }
 
       const product = await this.sequalizeService.getProductsByProps(
         filter,

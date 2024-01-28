@@ -8,6 +8,9 @@ export class UserRegisterDto {
   @IsString({ message: 'enter pasword' })
   password: string;
 
-  @IsString({ message: 'enter name' })
-  name: string;
+  @IsString({ message: 'enter first name' })
+  firstName: string;
+
+  @IsString({ message: 'enter surname' })
+  lastName: string;
 }
