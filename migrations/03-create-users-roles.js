@@ -7,20 +7,22 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable(TABLE_NAME, {
       userId: {
-        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: 'users',
           key: 'id',
         },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       roleId: {
-        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: 'roles',
           key: 'id',
         },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
     });
   },
