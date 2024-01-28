@@ -2,7 +2,7 @@ import { injectable } from 'inversify/lib/annotation/injectable';
 import { UserLoginDto } from '../dto/user-login.dto';
 import { UserRegisterDto } from '../dto/user-register.dto';
 import { User } from '../entities/user.entity';
-import { IUserService } from '../interfaces/user.interface';
+import { IUserService } from '../interfaces/user.service.interface';
 import { TYPES } from '../types/types';
 import { IConfigService } from '../interfaces/config.service.interface';
 import { inject } from 'inversify';
@@ -45,5 +45,9 @@ export class UserService implements IUserService {
     );
 
     return newUser.comparePassword(password);
+  }
+
+  async getUserInfo(email: string): Promise<UserModel | null> {
+    return this.usersRepository.find(email);
   }
 }

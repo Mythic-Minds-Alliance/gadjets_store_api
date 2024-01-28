@@ -3,7 +3,6 @@ export const TYPES = {
   ILogger: Symbol.for('ILogger'),
   UserService: Symbol.for('UserService'),
   UserController: Symbol.for('UserController'),
-  ProductService: Symbol.for('ProductService'),
   ProductController: Symbol.for('ProductController'),
   SequelizeService: Symbol('SequelizeService'),
   ExceptionFilter: Symbol.for('ExceptionFilter'),
