@@ -11,14 +11,16 @@ import { UserRegisterDto } from '../dto/user-register.dto';
 import { ValidateMiddleware } from '../middlewares/validate.middleware';
 import { sign } from 'jsonwebtoken';
 import { IConfigService } from '../interfaces/config.service.interface';
-import { IUserService } from '../interfaces/user.interface';
+import { IUserService } from '../interfaces/user.service.interface';
+import { AuthGuard } from '../middlewares/auth.guard';
+import { AuthMiddleware } from '../middlewares/auth.middleware';
 
 @injectable()
 export class UserController extends BaseController implements IUserController {
   constructor(
     @inject(TYPES.ILogger) private loggerService: ILogger,
     @inject(TYPES.UserService) private userService: IUserService,
-    @inject(TYPES.ConfigService) private congifService: IConfigService,
+    @inject(TYPES.ConfigService) private configService: IConfigService,
   ) {
     super(loggerService);
     this.bindRoutes([
@@ -34,6 +36,12 @@ export class UserController extends BaseController implements IUserController {
         func: this.login,
         middlewares: [new ValidateMiddleware(UserLoginDto)],
       },
+      {
+        path: '/info',
+        method: 'get',
+        func: this.info,
+        middlewares: [new AuthGuard()],
+      },
     ]);
   }
 
@@ -48,7 +56,7 @@ export class UserController extends BaseController implements IUserController {
     }
     const jwt = await this.signJWT(
       body.email,
-      this.congifService.get('SECRET'),
+      this.configService.get('SECRET'),
     );
     this.ok(res, { jwt });
   }
@@ -63,6 +71,16 @@ export class UserController extends BaseController implements IUserController {
       return next(new HTTPError(422, 'this user already exist'));
     }
     this.ok(res, { email: result.email, id: result.id });
+  }
+
+  async info(
+    { user }: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    console.log('Auth', 'Validating token');
+    const userInfo = await this.userService.getUserInfo(user);
+    this.ok(res, { email: userInfo?.email, id: userInfo?.id });
   }
 
   private signJWT(email: string, secret: string): Promise<string> {

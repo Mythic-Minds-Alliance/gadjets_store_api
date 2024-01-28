@@ -10,10 +10,8 @@ import { ProductController } from './controllers/products.controller';
 import { SequelizeService } from './services/sequelize.service';
 import { IUserController } from './interfaces/users.controller.interface';
 import { IProductController } from './interfaces/products.controller.interface';
-import { IUserService } from './interfaces/user.interface';
+import { IUserService } from './interfaces/user.service.interface';
 import { UserService } from './services/user.service';
-import { IProductService } from './interfaces/product.interface';
-import { ProductService } from './services/product.service';
 import { ISequelize } from './interfaces/sequelize.interface';
 import { IConfigService } from './interfaces/config.service.interface';
 import { ConfigService } from './services/config.service';
@@ -30,7 +28,6 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
   bind<IExceptionFilter>(TYPES.ExceptionFilter).to(ExceptionFilter);
   bind<IUserService>(TYPES.UserService).to(UserService);
   bind<IUserController>(TYPES.UserController).to(UserController);
-  bind<IProductService>(TYPES.ProductService).to(ProductService);
   bind<IProductController>(TYPES.ProductController).to(ProductController);
   bind<ISequelize>(TYPES.SequelizeService)
     .to(SequelizeService)
