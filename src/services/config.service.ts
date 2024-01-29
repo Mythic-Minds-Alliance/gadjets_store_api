@@ -13,7 +13,7 @@ export class ConfigService implements IConfigService {
   constructor(@inject(TYPES.ILogger) private logger: ILogger) {
     const result = config();
     if (result.error) {
-      this.logger.error('error reading .env file');
+      this.logger.error('error reading .env file', result.error);
       this.config = {}; // Set an empty object or handle the error accordingly
     } else {
       this.logger.log('config from .env loaded');

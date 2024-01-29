@@ -34,7 +34,7 @@ export class App {
     @inject(TYPES.AuthGuard) private authGuard: AuthGuard,
   ) {
     this.app = express();
-    this.port = this.configService.get('PORT');
+    this.port = this.configService.get('PORT') || 3000;
     const authMiddleware = new AuthMiddleware(this.configService.get('SECRET'));
     this.app.use(authMiddleware.execute.bind(authMiddleware));
     this.configureMiddleware();
