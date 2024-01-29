@@ -3,24 +3,25 @@ import { DotenvConfigOutput, config } from 'dotenv';
 import { ILogger } from '../interfaces/logger.interface';
 import { TYPES } from '../types/types';
 import { inject, injectable } from 'inversify';
+import { ProcessEnv } from '../interfaces/process.env';
 
 @injectable()
 export class ConfigService implements IConfigService {
-  private config: DotenvConfigOutput;
+  private config: ProcessEnv;
+  // private config: DotenvConfigOutput;
 
   constructor(@inject(TYPES.ILogger) private logger: ILogger) {
-    const result: DotenvConfigOutput = config();
+    const result = config();
     if (result.error) {
-      this.logger.error('error reading .env file', result.error);
+      this.logger.error('error reading .env file');
+      this.config = {}; // Set an empty object or handle the error accordingly
     } else {
       this.logger.log('config from .env loaded');
-      this.config = result.parsed as DotenvConfigOutput;
+      this.config = result.parsed as ProcessEnv;
     }
   }
 
   get(key: string): string {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return this.config[key];
+    return this.config[key as string] as string;
   }
 }
