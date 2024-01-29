@@ -7,7 +7,12 @@ import { TYPES } from '../types/types';
 import { IConfigService } from '../interfaces/config.service.interface';
 import { inject } from 'inversify';
 import { IUsersRepository } from '../interfaces/users.repository.interface';
-import { UserModel } from '../models/users.roles.model';
+import {
+  RoleModel,
+  UserModel,
+  UsersRolesModel,
+} from '../models/users.roles.model';
+import { Role } from '../models/role.model';
 
 @injectable()
 export class UserService implements IUserService {
@@ -41,7 +46,8 @@ export class UserService implements IUserService {
     }
     const newUser = new User(
       existedUser.email,
-      existedUser.password,
+      'first name',
+      'last name',
       existedUser.password,
     );
 
@@ -50,5 +56,35 @@ export class UserService implements IUserService {
 
   async getUserInfo(email: string): Promise<UserModel | null> {
     return this.usersRepository.find(email);
+  }
+
+  async isUserAdmin(email: string): Promise<boolean> {
+    try {
+      // Find the user by email to get the userId
+      const user = await UserModel.findOne({
+        where: {
+          email: email,
+        },
+        attributes: ['id'],
+      });
+
+      if (!user) {
+        // User with the given email not found
+        return false;
+      }
+
+      // Check if the user has the admin role in the users_roles table
+      const userRoles = await UsersRolesModel.findOne({
+        where: {
+          userId: user.id,
+          roleId: 1, // Assuming roleId === 1 represents the admin role
+        },
+      });
+
+      return !!userRoles; // If userRoles is found, the user is an admin
+    } catch (error) {
+      console.error('Error checking if user is admin:', error);
+      return false;
+    }
   }
 }

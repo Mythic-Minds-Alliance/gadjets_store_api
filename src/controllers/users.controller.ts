@@ -9,11 +9,11 @@ import { IUserController } from '../interfaces/users.controller.interface';
 import { UserLoginDto } from '../dto/user-login.dto';
 import { UserRegisterDto } from '../dto/user-register.dto';
 import { ValidateMiddleware } from '../middlewares/validate.middleware';
-import { sign } from 'jsonwebtoken';
+import jwt, { JwtPayload, sign } from 'jsonwebtoken';
 import { IConfigService } from '../interfaces/config.service.interface';
 import { IUserService } from '../interfaces/user.service.interface';
 import { AuthGuard } from '../middlewares/auth.guard';
-import { AuthMiddleware } from '../middlewares/auth.middleware';
+import { AdminGuard } from './RequireAdmin.helper';
 
 @injectable()
 export class UserController extends BaseController implements IUserController {
@@ -41,6 +41,15 @@ export class UserController extends BaseController implements IUserController {
         method: 'get',
         func: this.info,
         middlewares: [new AuthGuard()],
+      },
+      {
+        path: '/infoAboutUser',
+        method: 'get',
+        func: this.getInfoAboutUser,
+        middlewares: [
+          new AuthGuard(),
+          new AdminGuard(this.configService, this.userService),
+        ],
       },
     ]);
   }
@@ -81,6 +90,26 @@ export class UserController extends BaseController implements IUserController {
     console.log('Auth', 'Validating token');
     const userInfo = await this.userService.getUserInfo(user);
     this.ok(res, { email: userInfo?.email, id: userInfo?.id });
+  }
+
+  async getInfoAboutUser(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const targetUserEmail = req.query.email;
+
+      if (typeof targetUserEmail === 'string') {
+        const userInfo = await this.userService.getUserInfo(targetUserEmail);
+        this.ok(res, { email: userInfo?.email, id: userInfo?.id });
+      } else {
+        throw new HTTPError(400, 'Bad Request. Email not provided.');
+      }
+    } catch (error) {
+      console.error('Error getting user info:', error);
+      next(error);
+    }
   }
 
   private signJWT(email: string, secret: string): Promise<string> {
