@@ -13,6 +13,8 @@ import { ProductController } from './controllers/products.controller';
 import { IConfigService } from './interfaces/config.service.interface';
 import { AuthMiddleware } from './middlewares/auth.middleware';
 import { AuthGuard } from './middlewares/auth.guard';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUI from 'swagger-ui-express';
 
 @injectable()
 export class App {
@@ -53,8 +55,28 @@ export class App {
     this.useRoutes();
     this.useExceptionFilters();
     this.useStaticImg();
+    this.setupSwagger();
   }
 
+  setupSwagger(): void {
+    const options = {
+      definition: {
+        openapi: '3.0.0',
+        info: {
+          title: 'Gadjets Store API',
+          version: '1.0.0',
+        },
+      },
+      apis: [
+        'src/users/users.controller.ts',
+        'src/controllers/products.controller.ts',
+      ],
+    };
+
+    const swaggerSpec = swaggerJSDoc(options);
+
+    this.app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
+  }
   useRoutes(): void {
     this.app.use('/users', this.userController.router);
     this.app.use('/', this.productController.router);

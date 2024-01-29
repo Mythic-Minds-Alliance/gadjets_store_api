@@ -44,7 +44,6 @@ class UserModel extends Model {
 
   @BelongsToMany(() => RoleModel, () => UsersRolesModel)
   roles!: RoleModel[];
-
 }
 
 export { UserModel, RoleModel };
