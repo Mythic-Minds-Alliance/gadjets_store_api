@@ -77,20 +77,4 @@ export class UsersRepository implements IUsersRepository {
       throw error;
     }
   }
-
-  async getUserRole(userId: number): Promise<Role | null> {
-    try {
-      const userRole = await UsersRolesModel.findOne({
-        where: {
-          userId: userId,
-        },
-        include: [{ model: RoleModel, attributes: ['id', 'name'], as: 'Role' }],
-      });
-
-      return userRole ? (userRole.get('Role') as Role) : null;
-    } catch (error) {
-      console.error('Error on getting user role:', error);
-      throw error;
-    }
-  }
 }

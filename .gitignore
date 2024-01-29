@@ -2,3 +2,8 @@
 /build
 /node_modules
 /.clinic
+
+.env*
+.flaskenv*
+!.env.project
+!.env.vault
