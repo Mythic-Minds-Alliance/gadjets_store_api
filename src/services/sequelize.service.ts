@@ -30,7 +30,8 @@ export class SequelizeService implements ISequelize {
       dialect: 'postgres',
       host: this.configService.get('DB_HOST') || process.env.DB_HOST,
       username: this.configService.get('DB_USER') || process.env.DB_USER,
-      password: this.configService.get('DB_PASSWORD') || process.env.DB_PASSWORD,
+      password:
+        this.configService.get('DB_PASSWORD') || process.env.DB_PASSWORD,
       database: this.configService.get('DB_NAME') || process.env.DB_NAME,
       dialectOptions: {
         ssl: true,
