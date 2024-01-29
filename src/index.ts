@@ -17,6 +17,7 @@ import { IConfigService } from './interfaces/config.service.interface';
 import { ConfigService } from './services/config.service';
 import { IUsersRepository } from './interfaces/users.repository.interface';
 import { UsersRepository } from './repository/users.repository';
+import { AuthGuard } from './middlewares/auth.guard';
 
 export interface IBootstrapReturn {
   appContainer: Container;
@@ -28,6 +29,7 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
   bind<IExceptionFilter>(TYPES.ExceptionFilter).to(ExceptionFilter);
   bind<IUserService>(TYPES.UserService).to(UserService);
   bind<IUserController>(TYPES.UserController).to(UserController);
+  bind<AuthGuard>(TYPES.AuthGuard).to(AuthGuard);
   bind<IProductController>(TYPES.ProductController).to(ProductController);
   bind<ISequelize>(TYPES.SequelizeService)
     .to(SequelizeService)

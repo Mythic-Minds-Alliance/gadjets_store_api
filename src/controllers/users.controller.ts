@@ -13,7 +13,7 @@ import { sign } from 'jsonwebtoken';
 import { IConfigService } from '../interfaces/config.service.interface';
 import { IUserService } from '../interfaces/user.service.interface';
 import { AuthGuard } from '../middlewares/auth.guard';
-import { AuthMiddleware } from '../middlewares/auth.middleware';
+import { IUsersRepository } from '../interfaces/users.repository.interface';
 
 @injectable()
 export class UserController extends BaseController implements IUserController {
@@ -21,6 +21,7 @@ export class UserController extends BaseController implements IUserController {
     @inject(TYPES.ILogger) private loggerService: ILogger,
     @inject(TYPES.UserService) private userService: IUserService,
     @inject(TYPES.ConfigService) private configService: IConfigService,
+    @inject(TYPES.UsersRepository) private usersRepository: IUsersRepository,
   ) {
     super(loggerService);
     this.bindRoutes([
@@ -40,7 +41,7 @@ export class UserController extends BaseController implements IUserController {
         path: '/info',
         method: 'get',
         func: this.info,
-        middlewares: [new AuthGuard()],
+        middlewares: [new AuthGuard(usersRepository)],
       },
     ]);
   }
@@ -54,6 +55,7 @@ export class UserController extends BaseController implements IUserController {
     if (!result) {
       return next(new HTTPError(401, 'authorization error', 'login'));
     }
+    console.log('Login...');
     const jwt = await this.signJWT(
       body.email,
       this.configService.get('SECRET'),

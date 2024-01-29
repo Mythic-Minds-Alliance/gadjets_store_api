@@ -41,7 +41,8 @@ export class UserService implements IUserService {
     }
     const newUser = new User(
       existedUser.email,
-      existedUser.password,
+      'first name',
+      'last name',
       existedUser.password,
     );
 
