@@ -34,8 +34,10 @@ export class App {
     @inject(TYPES.AuthGuard) private authGuard: AuthGuard,
   ) {
     this.app = express();
-    this.port = this.configService.get('PORT') || 3000;
-    const authMiddleware = new AuthMiddleware(this.configService.get('SECRET'));
+    this.port = this.configService.get('PORT') || process.env.PORT;
+    const authMiddleware = new AuthMiddleware(
+      this.configService.get('SECRET') || process.env.SECRET || '',
+    );
     this.app.use(authMiddleware.execute.bind(authMiddleware));
     this.configureMiddleware();
   }
@@ -43,7 +45,7 @@ export class App {
   useCors(): void {
     this.app.use(
       cors({
-        origin: this.configService.get('CLIENT_URL'),
+        origin: this.configService.get('CLIENT_URL') || process.env.CLIENT_URL,
         credentials: true,
       }),
     );
@@ -94,7 +96,7 @@ export class App {
   public async init(): Promise<void> {
     this.server = this.app.listen(this.port);
     this.logger.log(
-      `Server started on ${this.configService.get('SERVER_HOST')}:${this.port}`,
+      `Server started on ${this.configService.get('SERVER_HOST') || process.env.SERVER_HOST}:${this.port}`,
     );
   }
 }
