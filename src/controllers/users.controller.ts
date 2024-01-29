@@ -58,7 +58,7 @@ export class UserController extends BaseController implements IUserController {
     console.log('Login...');
     const jwt = await this.signJWT(
       body.email,
-      this.configService.get('SECRET'),
+      this.configService.get('SECRET') || process.env.SECRET || '',
     );
     this.ok(res, { jwt });
   }
