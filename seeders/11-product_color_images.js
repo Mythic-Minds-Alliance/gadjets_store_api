@@ -1176,8 +1176,131 @@ module.exports = {
           colorId: 17,
           imageUrl: 'img/phones/apple-iphone-xr/coral/02.webp',
         },
-
-
+        {
+          productId: 17,
+          colorId: 13,
+          imageUrl: 'img/tablets/apple-ipad-air-4th-gen/rose-gold/00.webp',
+        },
+        {
+          productId: 17,
+          colorId: 13,
+          imageUrl: 'img/tablets/apple-ipad-air-4th-gen/rose-gold/01.webp',
+        },
+        {
+          productId: 17,
+          colorId: 13,
+          imageUrl: 'img/tablets/apple-ipad-air-4th-gen/rose-gold/02.webp',
+        },
+        {
+          productId: 17,
+          colorId: 13,
+          imageUrl: 'img/tablets/apple-ipad-air-4th-gen/rose-gold/03.webp',
+        },
+        {
+          productId: 17,
+          colorId: 2,
+          imageUrl: 'img/tablets/apple-ipad-air-4th-gen/silver/00.webp',
+        },
+        {
+          productId: 17,
+          colorId: 2,
+          imageUrl: 'img/tablets/apple-ipad-air-4th-gen/silver/01.webp',
+        },
+        {
+          productId: 17,
+          colorId: 2,
+          imageUrl: 'img/tablets/apple-ipad-air-4th-gen/silver/02.webp',
+        },
+        {
+          productId: 17,
+          colorId: 2,
+          imageUrl: 'img/tablets/apple-ipad-air-4th-gen/silver/03.webp',
+        },
+        {
+          productId: 17,
+          colorId: 5,
+          imageUrl: 'img/tablets/apple-ipad-air-4th-gen/green/00.webp',
+        },
+        {
+          productId: 17,
+          colorId: 5,
+          imageUrl: 'img/tablets/apple-ipad-air-4th-gen/green/01.webp',
+        },
+        {
+          productId: 17,
+          colorId: 5,
+          imageUrl: 'img/tablets/apple-ipad-air-4th-gen/green/02.webp',
+        },
+        {
+          productId: 17,
+          colorId: 5,
+          imageUrl: 'img/tablets/apple-ipad-air-4th-gen/green/03.webp',
+        },
+        {
+          productId: 17,
+          colorId: 20,
+          imageUrl: 'img/tablets/apple-ipad-air-4th-gen/sky-blue/00.webp',
+        },
+        {
+          productId: 17,
+          colorId: 20,
+          imageUrl: 'img/tablets/apple-ipad-air-4th-gen/sky-blue/01.webp',
+        },
+        {
+          productId: 17,
+          colorId: 20,
+          imageUrl: 'img/tablets/apple-ipad-air-4th-gen/sky-blue/02.webp',
+        },
+        {
+          productId: 17,
+          colorId: 20,
+          imageUrl: 'img/tablets/apple-ipad-air-4th-gen/sky-blue/03.webp',
+        },
+        {
+          productId: 18,
+          colorId: 1,
+          imageUrl: 'img/tablets/apple-ipad-mini-6th-gen/spacegray/00.webp',
+        },
+        {
+          productId: 18,
+          colorId: 1,
+          imageUrl: 'img/tablets/apple-ipad-mini-6th-gen/spacegray/01.webp',
+        },
+        {
+          productId: 18,
+          colorId: 1,
+          imageUrl: 'img/tablets/apple-ipad-mini-6th-gen/spacegray/02.webp',
+        },
+        {
+          productId: 18,
+          colorId: 11,
+          imageUrl: 'img/tablets/apple-ipad-mini-6th-gen/starlight/00.webp',
+        },
+        {
+          productId: 18,
+          colorId: 11,
+          imageUrl: 'img/tablets/apple-ipad-mini-6th-gen/starlight/01.webp',
+        },
+        {
+          productId: 18,
+          colorId: 11,
+          imageUrl: 'img/tablets/apple-ipad-mini-6th-gen/starlight/02.webp',
+        },
+        {
+          productId: 18,
+          colorId: 12,
+          imageUrl: 'img/tablets/apple-ipad-mini-6th-gen/pink/00.webp',
+        },
+        {
+          productId: 18,
+          colorId: 12,
+          imageUrl: 'img/tablets/apple-ipad-mini-6th-gen/pink/01.webp',
+        },
+        {
+          productId: 18,
+          colorId: 12,
+          imageUrl: 'img/tablets/apple-ipad-mini-6th-gen/pink/02.webp',
+        },
 
       ],
       {},

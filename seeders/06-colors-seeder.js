@@ -63,6 +63,9 @@ module.exports = {
         {
           name: 'graphite',
         },
+        {
+          name: 'sky blue',
+        },
       ],
       {},
     );
