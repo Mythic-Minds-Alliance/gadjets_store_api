@@ -7,7 +7,7 @@ import { TYPES } from '../types/types';
 import { IConfigService } from '../interfaces/config.service.interface';
 import { inject } from 'inversify';
 import { IUsersRepository } from '../interfaces/users.repository.interface';
-import { UserModel } from '../models/users.roles.model';
+import { UserModel, UsersRolesModel } from '../models/users.roles.model';
 
 @injectable()
 export class UserService implements IUserService {
@@ -24,7 +24,7 @@ export class UserService implements IUserService {
   }: UserRegisterDto): Promise<UserModel | null> {
     console.log(email, firstName, lastName);
     const newUser = new User(email, firstName, lastName);
-    const salt = this.configService.get('SALT') || process.env.SALT;
+    const salt = this.configService.get('SALT');
     await newUser.setPassword(password, Number(salt));
     const existedUser = await this.usersRepository.find(email);
 
@@ -51,5 +51,35 @@ export class UserService implements IUserService {
 
   async getUserInfo(email: string): Promise<UserModel | null> {
     return this.usersRepository.find(email);
+  }
+
+  async isUserAdmin(email: string): Promise<boolean> {
+    try {
+      // Find the user by email to get the userId
+      const user = await UserModel.findOne({
+        where: {
+          email: email,
+        },
+        attributes: ['id'],
+      });
+
+      if (!user) {
+        // User with the given email not found
+        return false;
+      }
+
+      // Check if the user has the admin role in the users_roles table
+      const userRoles = await UsersRolesModel.findOne({
+        where: {
+          userId: user.id,
+          roleId: 1, // Assuming roleId === 1 represents the admin role
+        },
+      });
+
+      return !!userRoles; // If userRoles is found, the user is an admin
+    } catch (error) {
+      console.error('Error checking if user is admin:', error);
+      return false;
+    }
   }
 }

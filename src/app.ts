@@ -12,9 +12,10 @@ import { UserController } from './controllers/users.controller';
 import { ProductController } from './controllers/products.controller';
 import { IConfigService } from './interfaces/config.service.interface';
 import { AuthMiddleware } from './middlewares/auth.middleware';
-import { AuthGuard } from './middlewares/auth.guard';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUI from 'swagger-ui-express';
+import { ShoppingCartController } from './controllers/shoppingCarts.controller';
+import { IShoppingCartService } from './interfaces/shoppingCart.interface';
 
 @injectable()
 export class App {
@@ -26,12 +27,15 @@ export class App {
     @inject(TYPES.ILogger) private logger: ILogger,
     @inject(TYPES.SequelizeService) private sequelizeService: ISequelize,
     @inject(TYPES.UserService) private userService: IUserService,
+    @inject(TYPES.ShoppingCartService)
+    private shoppingCartService: IShoppingCartService,
     @inject(TYPES.UserController) private userController: UserController,
     @inject(TYPES.ProductController)
     private productController: ProductController,
+    @inject(TYPES.ShoppingCartController)
+    private shpController: ShoppingCartController,
     @inject(TYPES.ExceptionFilter) private exceptionFilter: IExceptionFilter,
     @inject(TYPES.ConfigService) private configService: IConfigService,
-    @inject(TYPES.AuthGuard) private authGuard: AuthGuard,
   ) {
     this.app = express();
     this.port = this.configService.get('PORT') || process.env.PORT;
