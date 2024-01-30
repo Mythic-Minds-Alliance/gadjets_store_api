@@ -8,16 +8,7 @@ import { IProductController } from '../interfaces/products.controller.interface'
 import { ExpressReturnType } from '../interfaces/route.interface';
 import { IConfigService } from '../interfaces/config.service.interface';
 import { ISequelize } from '../interfaces/sequelize.interface';
-
-interface Filter {
-  productId?: number;
-  categoryId?: number[];
-  color?: string;
-  capacity?: string;
-  brand?: string;
-  ram?: string;
-  year?: number;
-}
+import { Filter } from '../types/filter.type';
 
 @injectable()
 export class ProductController
@@ -137,7 +128,6 @@ export class ProductController
     if (typeof sortBy === 'string' && sortBy.trim()) {
       return sortBy;
     }
-    return undefined;
   }
 
   private validateCategoryId(sortBy: string, filter: Filter): void {
@@ -182,7 +172,7 @@ export class ProductController
         year,
         sort = 'ASC',
         sortBy = '',
-        limit = '100',
+        limit = 1000,
         offset = '0',
       } = req.query;
 
@@ -211,6 +201,8 @@ export class ProductController
         validatedSort,
         validatedSortBy,
       );
+
+      console.log(product.length);
 
       if (!product) {
         throw new Error('No products found with the given parameters.');

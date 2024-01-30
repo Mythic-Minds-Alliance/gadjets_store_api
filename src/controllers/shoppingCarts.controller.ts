@@ -1,84 +1,167 @@
 import { Request, Response, NextFunction } from 'express';
+import { body, validationResult } from 'express-validator';
 import { inject, injectable } from 'inversify';
 import { ILogger } from '../interfaces/logger.interface';
 import { IShoppingCartService } from '../interfaces/shoppingCart.interface';
 import { TYPES } from '../types/types';
 import { ShoppingCartsModel } from '../models/shoppingCarts.model';
 import { CartItemModel } from '../models/cartItem.model';
+import jwt, { JwtPayload, sign } from 'jsonwebtoken';
+import { IConfigService } from '../interfaces/config.service.interface';
+import { IShoppingCartController } from '../interfaces/shoppingCart.controller.interface';
+import { BaseController } from './base.controller';
+import { ParamsDictionary } from 'express-serve-static-core';
+import { ParsedQs } from 'qs';
 
 @injectable()
-export class ShoppingCartController {
+export class ShoppingCartController
+  extends BaseController
+  implements IShoppingCartController
+{
   constructor(
     @inject(TYPES.ILogger) private loggerService: ILogger,
     @inject(TYPES.ShoppingCartService)
     private shoppingCartService: IShoppingCartService,
-  ) {}
+    @inject(TYPES.ConfigService) private configService: IConfigService,
+  ) {
+    super(loggerService);
+    this.bindRoutes([
+      {
+        path: '/createCart',
+        method: 'post',
+        func: this.createCart,
+      },
+      {
+        path: '/addToCart',
+        method: 'post',
+        func: this.addToCart,
+      },
+      {
+        path: '/getCart',
+        method: 'get',
+        func: this.getCart,
+      },
+      {
+        path: '/removeFromCart',
+        method: 'delete',
+        func: this.removeFromCart,
+      },
+    ]);
+  }
 
-  async addToCart(
+  async createCart(
     req: Request,
     res: Response,
     next: NextFunction,
   ): Promise<void> {
     try {
-      const userId = res.locals.jwt.id;
-      const { productId, quantity } = req.body;
-      await this.shoppingCartService.addToCart(userId, productId, quantity);
-      res.status(200).send({ message: 'Product added to cart successfully.' });
+      const userId: number = this.getUserIdFromToken(req);
+      console.log(userId);
+
+      const shoppingCart = await this.shoppingCartService.createCart(userId);
+
+      res.status(201).json(shoppingCart);
     } catch (error) {
-      this.loggerService.error('Error adding to cart:', error);
-      next(error);
+      this.loggerService.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
   }
 
-  async getCart(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ): Promise<void> {
+  async addToCart(req: Request, res: Response): Promise<void> {
+    await Promise.all(
+      [
+        body(
+          'productId',
+          'Product ID is required and must be a number',
+        ).isNumeric(),
+        body(
+          'quantity',
+          'Quantity is required and must be a number',
+        ).isNumeric(),
+        body('color', 'Color is required and must be a string').isString(),
+        body(
+          'capacity',
+          'Capacity is required and must be a string',
+        ).isString(),
+      ].map((validation) => validation.run(req)),
+    );
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).json({ errors: errors.array() });
+    }
+
     try {
-      const userId = res.locals.jwt.id;
-      const cart = await this.shoppingCartService.getCart(userId);
-      res.status(200).send(cart);
+      const userId: number = this.getUserIdFromToken(req);
+      console.log(userId);
+      const { productId, quantity, color, capacity } = req.body;
+
+      await this.shoppingCartService.addToCart(
+        userId,
+        productId,
+        quantity,
+        color,
+        capacity,
+      );
+
+      res.status(204).send();
     } catch (error) {
-      this.loggerService.error('Error getting cart:', error);
-      next(error);
+      this.loggerService.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
   }
 
-  async removeFromCart(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ): Promise<void> {
+  async removeFromCart(req: Request, res: Response): Promise<void> {
     try {
-      const userId = res.locals.jwt.id;
-      const { productId } = req.body;
-      const shoppingCart = await ShoppingCartsModel.findOne({
-        where: { userId },
-      });
+      const userId: number = this.getUserIdFromToken(req);
+      const { productId, color, capacity } = req.body;
+
+      await this.shoppingCartService.removeFromCart(
+        userId,
+        productId,
+        color,
+        capacity,
+      );
+
+      res.status(204).send();
+    } catch (error) {
+      this.loggerService.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  }
+
+  async getCart(req: Request, res: Response): Promise<void> {
+    try {
+      const userId: number = this.getUserIdFromToken(req);
+
+      const shoppingCart = await this.shoppingCartService.getCart(userId);
 
       if (!shoppingCart) {
-        res.status(404).send({ message: 'Shopping cart not found.' });
+        res.status(404).json({ error: 'Shopping cart not found' });
+        return;
       }
 
-      const cartItem = await CartItemModel.findOne({
-        where: {
-          shopping_cart_id: shoppingCart?.id,
-          product_id: productId,
-        },
-      });
-
-      if (!cartItem) {
-        res.status(404).send({ message: 'Product not found in cart.' });
-      }
-
-      await cartItem?.destroy();
-      res
-        .status(200)
-        .send({ message: 'Product removed from cart successfully.' });
+      res.status(200).json(shoppingCart);
     } catch (error) {
-      this.loggerService.error('Error removing from cart:', error);
-      next(error);
+      this.loggerService.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
+  }
+
+  private getUserIdFromToken(req: Request): number {
+    const token = req.headers.authorization?.split(' ')[1];
+
+    if (!token) {
+      throw new Error('Authorization token not provided');
+    }
+
+    const decodedToken: any = jwt.verify(
+      token,
+      this.configService.get('SECRET'),
+    );
+
+    console.log(decodedToken);
+
+    return decodedToken.id;
   }
 }

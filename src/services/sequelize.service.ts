@@ -17,6 +17,8 @@ import { RoleModel, UsersRolesModel } from '../models/users.roles.model';
 import { ProductsCapacitiesColorsModel } from '../models/products_capacities_colors.model';
 import { ProductColorImageModel } from '../models/product_color_images.model';
 import { ProductResult } from '../interfaces/productResult.interface';
+import { ShoppingCartsModel } from '../models/shoppingCarts.model';
+import { CartItemModel } from '../models/cartItem.model';
 
 @injectable()
 export class SequelizeService implements ISequelize {
@@ -58,6 +60,8 @@ export class SequelizeService implements ISequelize {
       UserModel,
       UsersRolesModel,
       RoleModel,
+      ShoppingCartsModel,
+      CartItemModel,
     ]);
 
     this.logger.log('[Sequelize] Connected to db successfully');

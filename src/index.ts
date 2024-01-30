@@ -19,6 +19,8 @@ import { IUsersRepository } from './interfaces/users.repository.interface';
 import { UsersRepository } from './repository/users.repository';
 import { IShoppingCartService } from './interfaces/shoppingCart.interface';
 import { ShoppingCartService } from './services/shoppingCart.service';
+import { IShoppingCartController } from './interfaces/shoppingCart.controller.interface';
+import { ShoppingCartController } from './controllers/shoppingCarts.controller';
 
 export interface IBootstrapReturn {
   appContainer: Container;
@@ -32,6 +34,9 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
   bind<IUserController>(TYPES.UserController).to(UserController);
   bind<IShoppingCartService>(TYPES.ShoppingCartService).to(ShoppingCartService);
   bind<IProductController>(TYPES.ProductController).to(ProductController);
+  bind<IShoppingCartController>(TYPES.ShoppingCartController).to(
+    ShoppingCartController,
+  );
   bind<ISequelize>(TYPES.SequelizeService)
     .to(SequelizeService)
     .inSingletonScope();

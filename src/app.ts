@@ -15,6 +15,7 @@ import { AuthMiddleware } from './middlewares/auth.middleware';
 import { IShoppingCartService } from './interfaces/shoppingCart.interface';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUI from 'swagger-ui-express';
+import { ShoppingCartController } from './controllers/shoppingCarts.controller';
 
 @injectable()
 export class App {
@@ -31,6 +32,8 @@ export class App {
     @inject(TYPES.UserController) private userController: UserController,
     @inject(TYPES.ProductController)
     private productController: ProductController,
+    @inject(TYPES.ShoppingCartController)
+    private shpController: ShoppingCartController,
     @inject(TYPES.ExceptionFilter) private exceptionFilter: IExceptionFilter,
     @inject(TYPES.ConfigService) private configService: IConfigService,
   ) {
@@ -82,6 +85,7 @@ export class App {
   useRoutes(): void {
     this.app.use('/users', this.userController.router);
     this.app.use('/', this.productController.router);
+    this.app.use('/shopping-cart', this.shpController.router);
   }
 
   useExceptionFilters(): void {

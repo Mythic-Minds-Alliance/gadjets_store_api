@@ -14,6 +14,7 @@ import { IConfigService } from '../interfaces/config.service.interface';
 import { IUserService } from '../interfaces/user.service.interface';
 import { AuthGuard } from '../middlewares/auth.guard';
 import { AdminGuard } from './RequireAdmin.helper';
+import { UserModel } from '../models/users.roles.model';
 
 @injectable()
 export class UserController extends BaseController implements IUserController {
@@ -112,24 +113,41 @@ export class UserController extends BaseController implements IUserController {
     }
   }
 
-  private signJWT(email: string, secret: string): Promise<string> {
-    return new Promise<string>((resolve, reject) => {
-      sign(
-        {
-          email,
-          iat: Math.floor(Date.now() / 1000),
-        },
-        secret,
-        {
-          algorithm: 'HS256',
-        },
-        (err, token) => {
-          if (err) {
-            reject(err);
-          }
-          resolve(token as string);
-        },
-      );
+  async signJWT(email: string, secret: string): Promise<string> {
+    // eslint-disable-next-line no-async-promise-executor
+    return new Promise<string>(async (resolve, reject) => {
+      try {
+        const user = await UserModel.findOne({
+          where: {
+            email: email,
+          },
+          attributes: ['id'],
+        });
+
+        if (!user) {
+          reject(new Error('User not found.'));
+        }
+
+        sign(
+          {
+            id: user?.id,
+            email,
+            iat: Math.floor(Date.now() / 1000),
+          },
+          secret,
+          {
+            algorithm: 'HS256',
+          },
+          (err, token) => {
+            if (err) {
+              reject(err);
+            }
+            resolve(token as string);
+          },
+        );
+      } catch (error) {
+        reject(error);
+      }
     });
   }
 }
