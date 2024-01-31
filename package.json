@@ -10,7 +10,8 @@
     "lint": "eslint . --ignore-path .gitignore",
     "lint:fix": "eslint ./src/** --fix",
     "prepare": "husky install",
-    "test": "npm run format && npm run lint",
+    "lint:test": "npm run format && npm run lint",
+    "test": "jest --rootDir=./src/__tests__",
     "build": "tsc",
     "start": "node ./build/index.js",
     "db": "psql postgres://admin@dpg-cmn42n6d3nmc73f63b10-a.frankfurt-postgres.render.com/gadjets_store"
