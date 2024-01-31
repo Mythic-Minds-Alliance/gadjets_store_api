@@ -233,7 +233,7 @@ export class ProductController
             ? Number(product.price)
             : Number(product.priceActual);
 
-        return { ...product, priceActual: fixedPrice };
+        return { ...product, priceActual: String(fixedPrice) };
       });
 
       res.json(fix);
