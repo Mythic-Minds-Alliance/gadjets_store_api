@@ -31,11 +31,19 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
       },
+      productName: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
       color: {
         allowNull: false,
         type: Sequelize.STRING,
       },
       capacity: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      price: {
         allowNull: false,
         type: Sequelize.STRING,
       },

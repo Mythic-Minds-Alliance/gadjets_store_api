@@ -35,7 +35,7 @@ module.exports = {
         type: Sequelize.BIGINT,
         allowNull: false,
       },
-      priceDiscount: {
+      priceActual: {
         type: Sequelize.BIGINT,
         allowNull: false,
       },

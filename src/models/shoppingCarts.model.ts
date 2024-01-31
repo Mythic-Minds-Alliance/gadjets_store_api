@@ -34,6 +34,12 @@ export class ShoppingCartsModel extends Model {
   })
   userId: number;
 
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+  })
+  total: number;
+
   @BelongsTo(() => UserModel)
   user: UserModel;
 

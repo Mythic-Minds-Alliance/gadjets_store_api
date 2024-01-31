@@ -4,14 +4,10 @@ import { inject, injectable } from 'inversify';
 import { ILogger } from '../interfaces/logger.interface';
 import { IShoppingCartService } from '../interfaces/shoppingCart.interface';
 import { TYPES } from '../types/types';
-import { ShoppingCartsModel } from '../models/shoppingCarts.model';
-import { CartItemModel } from '../models/cartItem.model';
 import jwt, { JwtPayload, sign } from 'jsonwebtoken';
 import { IConfigService } from '../interfaces/config.service.interface';
 import { IShoppingCartController } from '../interfaces/shoppingCart.controller.interface';
 import { BaseController } from './base.controller';
-import { ParamsDictionary } from 'express-serve-static-core';
-import { ParsedQs } from 'qs';
 
 @injectable()
 export class ShoppingCartController
@@ -46,6 +42,11 @@ export class ShoppingCartController
         method: 'delete',
         func: this.removeFromCart,
       },
+      {
+        path: '/deleteCart/:id',
+        method: 'delete',
+        func: this.deleteCartItem,
+      },
     ]);
   }
 
@@ -58,7 +59,7 @@ export class ShoppingCartController
       const userId: number = this.getUserIdFromToken(req);
       console.log(userId);
 
-      const shoppingCart = await this.shoppingCartService.createCart(userId);
+      const shoppingCart = await this.shoppingCartService.createCart(userId, 0);
 
       res.status(201).json(shoppingCart);
     } catch (error) {
@@ -104,7 +105,9 @@ export class ShoppingCartController
         capacity,
       );
 
-      res.status(204).send();
+      const updatedCart = await this.shoppingCartService.getCart(userId);
+
+      res.json({ 'Added to cart!': updatedCart });
     } catch (error) {
       this.loggerService.error(error);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -123,7 +126,7 @@ export class ShoppingCartController
         capacity,
       );
 
-      res.status(204).send();
+      res.json('deleted from cart!');
     } catch (error) {
       this.loggerService.error(error);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -145,6 +148,19 @@ export class ShoppingCartController
     } catch (error) {
       this.loggerService.error(error);
       res.status(500).json({ error: 'Internal Server Error' });
+    }
+  }
+
+  async deleteCartItem(req: Request, res: Response): Promise<void> {
+    try {
+      const cartItemId = Number(req.params.id);
+      await this.shoppingCartService.deleteCartItem(cartItemId);
+      res.status(200).send({ message: 'Cart item deleted successfully.' });
+    } catch (error) {
+      console.error('Error in deleteCartItem:', error);
+      res
+        .status(500)
+        .send({ error: 'An error occurred while deleting the cart item.' });
     }
   }
 

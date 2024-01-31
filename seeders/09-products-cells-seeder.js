@@ -366,6 +366,35 @@ module.exports = {
           productId: 16,
           cellId: 8,
         },
+        {
+          productId: 17,
+          cellId: 13,
+        },
+        {
+          productId: 18,
+          cellId: 13,
+        },
+        {
+          productId: 19,
+          cellId: 13,
+        },
+        {
+          productId: 20,
+          cellId: 13,
+        },
+        {
+          productId: 21,
+          cellId: 11,
+        },
+        {
+          productId: 21,
+          cellId: 12,
+        },
+        {
+          productId: 21,
+          cellId: 8,
+        },
+
       ],
       {},
     );

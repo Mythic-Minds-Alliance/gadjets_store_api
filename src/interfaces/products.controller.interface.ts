@@ -7,4 +7,9 @@ export interface IProductController {
     res: Response,
     next: NextFunction,
   ) => Promise<void>;
+  getRecommendedProducts(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void>;
 }

@@ -16,6 +16,8 @@ import { IShoppingCartService } from './interfaces/shoppingCart.interface';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUI from 'swagger-ui-express';
 import { ShoppingCartController } from './controllers/shoppingCarts.controller';
+import { FavouriteService } from './services/favourite.service';
+import { FavouritesController } from './controllers/favourite.controller';
 
 @injectable()
 export class App {
@@ -29,6 +31,10 @@ export class App {
     @inject(TYPES.UserService) private userService: IUserService,
     @inject(TYPES.ShoppingCartService)
     private shoppingCartService: IShoppingCartService,
+    @inject(TYPES.FavouriteService)
+    private favouriteService: FavouriteService,
+    @inject(TYPES.FavouritesController)
+    private favouriteController: FavouritesController,
     @inject(TYPES.UserController) private userController: UserController,
     @inject(TYPES.ProductController)
     private productController: ProductController,
@@ -84,8 +90,9 @@ export class App {
 
   useRoutes(): void {
     this.app.use('/users', this.userController.router);
-    this.app.use('/', this.productController.router);
+    this.app.use('/products', this.productController.router);
     this.app.use('/shopping-cart', this.shpController.router);
+    this.app.use('/favourites', this.favouriteController.router);
   }
 
   useExceptionFilters(): void {
