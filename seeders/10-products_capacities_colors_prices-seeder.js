@@ -1168,8 +1168,6 @@ module.exports = {
           price: 399,
           priceActual: 329,
         },
-
-
       ],
       {},
     );

@@ -394,7 +394,6 @@ module.exports = {
           productId: 21,
           cellId: 8,
         },
-
       ],
       {},
     );

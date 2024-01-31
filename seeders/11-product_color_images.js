@@ -1431,8 +1431,6 @@ module.exports = {
           colorId: 1,
           imageUrl: 'img/accessories/apple-watch-series-6/space-gray/02.webp',
         },
-
-
       ],
       {},
     );

@@ -40,7 +40,6 @@ export class FavouriteModel extends Model {
   @Column(DataType.STRING)
   capacity: string;
 
-
   @BelongsTo(() => ProductModel)
   product: ProductModel;
 }

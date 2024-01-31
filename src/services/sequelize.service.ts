@@ -64,7 +64,7 @@ export class SequelizeService implements ISequelize {
       RoleModel,
       ShoppingCartsModel,
       CartItemModel,
-      FavouriteModel
+      FavouriteModel,
     ]);
 
     this.logger.log('[Sequelize] Connected to db successfully');

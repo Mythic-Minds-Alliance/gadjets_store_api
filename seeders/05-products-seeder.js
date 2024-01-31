@@ -625,26 +625,26 @@ module.exports = {
           categoryId: 2,
           description: JSON.stringify([
             {
-              title: "Versatile and Affordable",
+              title: 'Versatile and Affordable',
               text: [
                 "The Apple iPad 10.2 (2020) offers a versatile and affordable option for everyday tasks and entertainment. Whether you're browsing the web, streaming content, or using productivity apps, it delivers a smooth and responsive experience.",
-                "With its large 10.2-inch Retina display, it provides a great viewing experience for all your content."
-              ]
+                'With its large 10.2-inch Retina display, it provides a great viewing experience for all your content.',
+              ],
             },
             {
-              title: "Powerful Performance",
+              title: 'Powerful Performance',
               text: [
                 "Experience powerful performance with the iPad 10.2's A12 Bionic chip. It enables fast and efficient multitasking, allowing you to run multiple apps smoothly and seamlessly.",
-                "From gaming to editing documents, the iPad 10.2 can handle it all with ease."
-              ]
+                'From gaming to editing documents, the iPad 10.2 can handle it all with ease.',
+              ],
             },
             {
-              title: "Apple Pencil and Smart Keyboard Support",
+              title: 'Apple Pencil and Smart Keyboard Support',
               text: [
-                "Unlock your creativity and productivity with Apple Pencil and Smart Keyboard support. Take notes, draw, and sketch with precision using the Apple Pencil (1st generation), and transform your iPad into a lightweight laptop with the Smart Keyboard.",
-                "The iPad 10.2 adapts to your needs, whether you're a student, professional, or creative artist."
-              ]
-            }
+                'Unlock your creativity and productivity with Apple Pencil and Smart Keyboard support. Take notes, draw, and sketch with precision using the Apple Pencil (1st generation), and transform your iPad into a lightweight laptop with the Smart Keyboard.',
+                "The iPad 10.2 adapts to your needs, whether you're a student, professional, or creative artist.",
+              ],
+            },
           ]),
           resolution: '2160x1620',
           screen: "10.2' Retina",
@@ -660,26 +660,26 @@ module.exports = {
           categoryId: 2,
           description: JSON.stringify([
             {
-              title: "Compact and Powerful",
+              title: 'Compact and Powerful',
               text: [
                 "The Apple iPad Mini (5th Gen) packs a punch with its compact size and powerful performance. Whether you're on the go or at home, it's perfect for productivity, entertainment, and creativity.",
-                "With its A12 Bionic chip, the iPad Mini delivers fast and efficient performance, allowing you to run demanding apps and games smoothly."
-              ]
+                'With its A12 Bionic chip, the iPad Mini delivers fast and efficient performance, allowing you to run demanding apps and games smoothly.',
+              ],
             },
             {
-              title: "Retina Display and True Tone",
+              title: 'Retina Display and True Tone',
               text: [
                 "Experience stunning visuals on the iPad Mini's Retina display. With True Tone technology, it adjusts the display's color temperature to match the ambient lighting, providing a natural and comfortable viewing experience.",
-                "From reading ebooks to browsing photos, the iPad Mini's display brings content to life with vibrant colors and sharp details."
-              ]
+                "From reading ebooks to browsing photos, the iPad Mini's display brings content to life with vibrant colors and sharp details.",
+              ],
             },
             {
-              title: "Apple Pencil and Smart Keyboard Support",
+              title: 'Apple Pencil and Smart Keyboard Support',
               text: [
-                "Unlock your creativity and productivity with Apple Pencil and Smart Keyboard support. Take notes, sketch, and annotate documents with precision using the Apple Pencil (1st generation), and turn your iPad Mini into a versatile workstation with the Smart Keyboard.",
-                "The iPad Mini adapts to your needs, making it a powerful tool for both work and play."
-              ]
-            }
+                'Unlock your creativity and productivity with Apple Pencil and Smart Keyboard support. Take notes, sketch, and annotate documents with precision using the Apple Pencil (1st generation), and turn your iPad Mini into a versatile workstation with the Smart Keyboard.',
+                'The iPad Mini adapts to your needs, making it a powerful tool for both work and play.',
+              ],
+            },
           ]),
           resolution: '2048x1536',
           screen: "7.9' Retina",
@@ -695,23 +695,23 @@ module.exports = {
           categoryId: 3,
           description: JSON.stringify([
             {
-              title: "Always-On Retina display",
+              title: 'Always-On Retina display',
               text: [
-                "The Apple Watch Series 6 features an Always-On Retina display that is 2.5 times brighter outdoors when your wrist is down. So you can see all the information on your watch face at a glance."
-              ]
+                'The Apple Watch Series 6 features an Always-On Retina display that is 2.5 times brighter outdoors when your wrist is down. So you can see all the information on your watch face at a glance.',
+              ],
             },
             {
-              title: "Blood oxygen sensor",
+              title: 'Blood oxygen sensor',
               text: [
-                "The Blood Oxygen app measures your blood oxygen levels with a revolutionary new sensor and app. You can also take an ECG from your wrist anytime, anywhere."
-              ]
+                'The Blood Oxygen app measures your blood oxygen levels with a revolutionary new sensor and app. You can also take an ECG from your wrist anytime, anywhere.',
+              ],
             },
             {
-              title: "Track your daily activity",
+              title: 'Track your daily activity',
               text: [
-                "The Apple Watch Series 6 tracks your daily activity including workouts, steps taken, and calories burned. It also has a built-in GPS to track your runs, walks, and hikes."
-              ]
-            }
+                'The Apple Watch Series 6 tracks your daily activity including workouts, steps taken, and calories burned. It also has a built-in GPS to track your runs, walks, and hikes.',
+              ],
+            },
           ]),
           resolution: '324x394',
           screen: "1.57' OLED",
@@ -721,7 +721,6 @@ module.exports = {
           zoom: 'Digital zoom up to 5x',
           year: '2019',
         },
-
       ],
       {},
     );
