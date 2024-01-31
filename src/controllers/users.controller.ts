@@ -3,18 +3,18 @@ import { Request, Response, NextFunction } from 'express';
 import { BaseController } from './base.controller';
 import { HTTPError } from '../errors/http-error.class';
 import { inject, injectable } from 'inversify';
-import { ILogger } from '../interfaces/logger.interface';
+import { ILogger } from '../interfaces/common/logger.interface';
 import { TYPES } from '../types/types';
-import { IUserController } from '../interfaces/users.controller.interface';
+import { IUserController } from '../interfaces/users/users.controller.interface';
 import { UserLoginDto } from '../dto/user-login.dto';
 import { UserRegisterDto } from '../dto/user-register.dto';
 import { ValidateMiddleware } from '../middlewares/validate.middleware';
 import { sign } from 'jsonwebtoken';
-import { IConfigService } from '../interfaces/config.service.interface';
-import { IUserService } from '../interfaces/user.service.interface';
+import { IConfigService } from '../interfaces/common/config.service.interface';
+import { IUserService } from '../interfaces/users/user.service.interface';
 import { AuthGuard } from '../middlewares/auth.guard';
-import { AdminGuard } from './RequireAdmin.helper';
-import { UserModel } from '../models/users.roles.model';
+import { UserModel } from '../models/users/users.roles.model';
+import { AdminGuard } from '../middlewares/RequireAdmin.middleware';
 
 @injectable()
 export class UserController extends BaseController implements IUserController {

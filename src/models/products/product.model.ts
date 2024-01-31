@@ -13,11 +13,11 @@ import {
   Unique,
   HasMany,
 } from 'sequelize-typescript';
-import { CategoryModel } from './category.model';
-import { ColorModel } from './colors.model';
-import { ImageModel } from './image.model';
-import { CapacityModel } from './capacity.model';
-import { CellModel } from './cell.model';
+import { CategoryModel } from '../productDetails/category.model';
+import { ColorModel } from '../productDetails/colors.model';
+import { ImageModel } from '../productDetails/image.model';
+import { CapacityModel } from '../productDetails/capacity.model';
+import { CellModel } from '../productDetails/cell.model';
 import { ProductsCells } from './products_cells.model';
 import { ProductsCapacitiesColorsModel } from './products_capacities_colors.model';
 import { ProductColorImageModel } from './product_color_images.model';

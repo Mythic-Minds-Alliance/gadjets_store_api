@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import { injectable, inject } from 'inversify';
 import { BaseController } from './base.controller';
-import { ILogger } from '../interfaces/logger.interface';
+import { ILogger } from '../interfaces/common/logger.interface';
 import { TYPES } from '../types/types';
-import { IConfigService } from '../interfaces/config.service.interface';
-import { IFavouriteService } from '../interfaces/favoutire.service.interface';
+import { IConfigService } from '../interfaces/common/config.service.interface';
+import { IFavouriteService } from '../interfaces/favourites/favoutire.service.interface';
 import jwt from 'jsonwebtoken';
-import { IFavouritesController } from '../interfaces/favourite.controller.interface';
+import { IFavouritesController } from '../interfaces/favourites/favourite.controller.interface';
 
 @injectable()
 export class FavouritesController

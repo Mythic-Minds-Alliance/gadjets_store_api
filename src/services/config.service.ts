@@ -1,9 +1,9 @@
-import { IConfigService } from '../interfaces/config.service.interface';
+import { IConfigService } from '../interfaces/common/config.service.interface';
 import { DotenvConfigOutput, config } from 'dotenv';
-import { ILogger } from '../interfaces/logger.interface';
+import { ILogger } from '../interfaces/common/logger.interface';
 import { TYPES } from '../types/types';
 import { inject, injectable } from 'inversify';
-import { ProcessEnv } from '../interfaces/process.env';
+import { ProcessEnv } from '../interfaces/common/process.env';
 
 @injectable()
 export class ConfigService implements IConfigService {

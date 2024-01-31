@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
-import { IUserService } from '../interfaces/user.service.interface';
+import { IUserService } from '../interfaces/users/user.service.interface';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '../types/types';
-import { IConfigService } from '../interfaces/config.service.interface';
+import { IConfigService } from '../interfaces/common/config.service.interface';
 import { HTTPError } from '../errors/http-error.class';
 import jwt from 'jsonwebtoken';
-import { IMiddleware } from '../interfaces/middleware.interface';
+import { IMiddleware } from '../interfaces/common/middleware.interface';
 
 @injectable()
 export class AdminGuard implements IMiddleware {

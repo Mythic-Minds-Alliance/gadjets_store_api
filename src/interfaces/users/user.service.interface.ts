@@ -1,6 +1,6 @@
-import { UserLoginDto } from '../dto/user-login.dto';
-import { UserRegisterDto } from '../dto/user-register.dto';
-import { UserModel } from '../models/users.roles.model';
+import { UserLoginDto } from '../../dto/user-login.dto';
+import { UserRegisterDto } from '../../dto/user-register.dto';
+import { UserModel } from '../../models/users/users.roles.model';
 
 export interface IUserService {
   createUser: (dto: UserRegisterDto) => Promise<UserModel | null>;

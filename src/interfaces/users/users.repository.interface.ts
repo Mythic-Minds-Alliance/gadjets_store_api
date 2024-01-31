@@ -1,6 +1,6 @@
-import { User } from '../entities/user.entity';
-import { Role } from '../models/role.model';
-import { UserModel } from '../models/user.model';
+import { User } from '../../entities/user.entity';
+import { Role } from '../../models/users/role.model';
+import { UserModel } from '../../models/users/user.model';
 
 export interface IUsersRepository {
   create: (user: User) => Promise<UserModel>;

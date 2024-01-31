@@ -10,9 +10,9 @@ import {
   Unique,
   BelongsToMany,
 } from 'sequelize-typescript';
-import { ProductModel } from './product.model';
+import { ProductModel } from '../products/product.model';
 import { ColorModel } from './colors.model';
-import { ProductsCapacitiesColorsModel } from './products_capacities_colors.model';
+import { ProductsCapacitiesColorsModel } from '../products/products_capacities_colors.model';
 
 @Table({
   tableName: 'capacities',

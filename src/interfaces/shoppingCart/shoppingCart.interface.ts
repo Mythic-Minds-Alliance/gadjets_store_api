@@ -1,4 +1,4 @@
-import { ShoppingCartsModel } from '../models/shoppingCarts.model';
+import { ShoppingCartsModel } from '../../models/shoppingCart/shoppingCarts.model';
 
 export interface IShoppingCartService {
   createCart(userId: number, total: number): Promise<ShoppingCartsModel>;

@@ -1,11 +1,11 @@
 import { inject, injectable } from 'inversify';
-import { IUsersRepository } from '../interfaces/users.repository.interface';
-import { RoleModel, UserModel } from '../models/user.model';
+import { IUsersRepository } from '../interfaces/users/users.repository.interface';
+import { RoleModel, UserModel } from '../models/users/user.model';
 import { User } from '../entities/user.entity';
 import { TYPES } from '../types/types';
 import { SequelizeService } from '../services/sequelize.service';
-import { Role } from '../models/role.model';
-import { UsersRolesModel } from '../models/users.roles.model';
+import { Role } from '../models/users/role.model';
+import { UsersRolesModel } from '../models/users/users.roles.model';
 
 @injectable()
 export class UsersRepository implements IUsersRepository {

@@ -11,7 +11,7 @@ import {
   PrimaryKey,
 } from 'sequelize-typescript';
 import { ProductModel } from './product.model';
-import { ColorModel } from './colors.model';
+import { ColorModel } from '../productDetails/colors.model';
 
 @Table({
   tableName: 'product_color_images',

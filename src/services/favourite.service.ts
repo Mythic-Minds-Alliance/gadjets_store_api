@@ -1,11 +1,11 @@
 import { inject, injectable } from 'inversify';
-import { ILogger } from '../interfaces/logger.interface';
+import { ILogger } from '../interfaces/common/logger.interface';
 import { SequelizeService } from './sequelize.service';
 import { TYPES } from '../types/types';
-import { FavouriteModel } from '../models/favourites.model';
+import { FavouriteModel } from '../models/favourites/favourites.model';
 import { Filter } from '../types/filter.type';
-import { IFavouriteService } from '../interfaces/favoutire.service.interface';
-import { ProductResult } from '../interfaces/productResult.interface';
+import { IFavouriteService } from '../interfaces/favourites/favoutire.service.interface';
+import { ProductResult } from '../interfaces/products/productResult.interface';
 
 @injectable()
 export class FavouriteService implements IFavouriteService {

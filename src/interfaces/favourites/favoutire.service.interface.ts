@@ -1,4 +1,4 @@
-import { FavouriteModel } from '../models/favourites.model';
+import { FavouriteModel } from '../../models/favourites/favourites.model';
 
 export interface IFavouriteService {
   getAllFavourites(userId: number): Promise<FavouriteModel[]>;

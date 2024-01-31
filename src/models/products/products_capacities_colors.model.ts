@@ -9,8 +9,8 @@ import {
   PrimaryKey,
   Table,
 } from 'sequelize-typescript';
-import { ColorModel } from './colors.model';
-import { CapacityModel } from './capacity.model';
+import { ColorModel } from '../productDetails/colors.model';
+import { CapacityModel } from '../productDetails/capacity.model';
 import { ProductModel } from './product.model';
 
 @Table({
