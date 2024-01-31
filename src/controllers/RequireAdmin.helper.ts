@@ -32,7 +32,7 @@ export class AdminGuard implements IMiddleware {
         if (isAdmin) {
           next();
         } else {
-          return next(
+          next(
             new HTTPError(
               403,
               'Access denied. Only admins can access this resource.',
@@ -40,10 +40,10 @@ export class AdminGuard implements IMiddleware {
           );
         }
       } else {
-        return next(new HTTPError(401, 'Unauthorized. Invalid token format.'));
+        next(new HTTPError(401, 'Unauthorized. Invalid token format.'));
       }
     } else {
-      return next(new HTTPError(401, 'Unauthorized. Token not provided.'));
+      next(new HTTPError(401, 'Unauthorized. Token not provided.'));
     }
   }
 }

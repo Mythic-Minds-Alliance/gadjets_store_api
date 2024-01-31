@@ -39,6 +39,21 @@ export class CartItemModel extends Model {
   @BelongsTo(() => ProductModel)
   product: ProductModel;
 
+  @Column(DataType.STRING)
+  productName: string;
+
+  @Column(DataType.STRING)
+  color: string;
+
+  @Column(DataType.STRING)
+  image: string;
+
+  @Column(DataType.STRING)
+  capacity: string;
+
   @Column(DataType.INTEGER)
   quantity: number;
+
+  @Column(DataType.INTEGER)
+  price: number;
 }

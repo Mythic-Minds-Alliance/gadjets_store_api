@@ -7,3 +7,5 @@
 .flaskenv*
 !.env.project
 !.env.vault
+
+/src/services/user.service.spec.ts

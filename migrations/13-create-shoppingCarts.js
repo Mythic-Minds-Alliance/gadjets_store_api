@@ -19,6 +19,10 @@ module.exports = {
           key: 'id',
         },
       },
+      total: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+      },
     });
   },
 

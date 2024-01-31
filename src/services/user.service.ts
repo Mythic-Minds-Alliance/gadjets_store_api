@@ -24,7 +24,7 @@ export class UserService implements IUserService {
   }: UserRegisterDto): Promise<UserModel | null> {
     console.log(email, firstName, lastName);
     const newUser = new User(email, firstName, lastName);
-    const salt = this.configService.get('SALT');
+    const salt = this.configService.get('SALT') || process.env.SALT;
     await newUser.setPassword(password, Number(salt));
     const existedUser = await this.usersRepository.find(email);
 
@@ -55,7 +55,6 @@ export class UserService implements IUserService {
 
   async isUserAdmin(email: string): Promise<boolean> {
     try {
-      // Find the user by email to get the userId
       const user = await UserModel.findOne({
         where: {
           email: email,
@@ -64,7 +63,6 @@ export class UserService implements IUserService {
       });
 
       if (!user) {
-        // User with the given email not found
         return false;
       }
 

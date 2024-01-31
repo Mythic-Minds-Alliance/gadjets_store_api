@@ -24,6 +24,14 @@ module.exports = {
           key: 'id',
         },
       },
+      color: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      capacity: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
     });
   },
 
