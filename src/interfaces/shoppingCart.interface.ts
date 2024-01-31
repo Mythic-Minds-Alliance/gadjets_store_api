@@ -1,7 +1,7 @@
 import { ShoppingCartsModel } from '../models/shoppingCarts.model';
 
 export interface IShoppingCartService {
-  createCart(userId: number): Promise<ShoppingCartsModel>;
+  createCart(userId: number, total: number): Promise<ShoppingCartsModel>;
   addToCart(
     userId: number,
     productId: number,
@@ -16,4 +16,5 @@ export interface IShoppingCartService {
     color: string,
     capacity: string,
   ): Promise<void>;
+  deleteCartItem(cartItemId: number): Promise<void>;
 }

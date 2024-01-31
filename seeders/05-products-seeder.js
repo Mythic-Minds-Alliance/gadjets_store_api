@@ -558,23 +558,23 @@ module.exports = {
               title: 'Thin, Light, and Powerful',
               text: [
                 "The Apple iPad Air (4th Gen) combines sleek design with powerful performance. With its thin and light form factor, it's incredibly portable and easy to carry wherever you go.",
-                "Featuring the A14 Bionic chip with Neural Engine, the iPad Air delivers fast and efficient performance, making it ideal for multitasking, gaming, and creative tasks."
-              ]
+                'Featuring the A14 Bionic chip with Neural Engine, the iPad Air delivers fast and efficient performance, making it ideal for multitasking, gaming, and creative tasks.',
+              ],
             },
             {
               title: 'Stunning Liquid Retina Display',
               text: [
                 "Immerse yourself in vivid visuals on the iPad Air's Liquid Retina display. With True Tone and P3 wide color gamut, it offers true-to-life colors and incredible detail.",
-                "Whether you're watching movies, editing photos, or browsing the web, the iPad Air's display provides an immersive and enjoyable viewing experience."
-              ]
+                "Whether you're watching movies, editing photos, or browsing the web, the iPad Air's display provides an immersive and enjoyable viewing experience.",
+              ],
             },
             {
               title: 'Versatile Features and Apple Pencil Support',
               text: [
                 "Unlock new possibilities with the iPad Air's versatile features. It supports Apple Pencil (2nd generation), allowing you to take notes, sketch, and annotate documents with precision.",
-                "With Touch ID built into the top button, you can securely unlock your iPad, make secure purchases, and authenticate apps with a simple touch."
-              ]
-            }
+                'With Touch ID built into the top button, you can securely unlock your iPad, make secure purchases, and authenticate apps with a simple touch.',
+              ],
+            },
           ]),
           resolution: '2360x1640',
           screen: "10.9' Liquid Retina",
@@ -590,26 +590,26 @@ module.exports = {
           categoryId: 2,
           description: JSON.stringify([
             {
-              title: "Compact and Portable",
+              title: 'Compact and Portable',
               text: [
                 "Experience the power of an iPad in a compact size with the Apple iPad Mini (6th Gen). With its 8.3-inch Liquid Retina display and slim design, it's perfect for on-the-go productivity and entertainment.",
-                "Whether you're reading, gaming, or watching videos, the iPad Mini delivers a stunning visual experience in a portable package."
-              ]
+                "Whether you're reading, gaming, or watching videos, the iPad Mini delivers a stunning visual experience in a portable package.",
+              ],
             },
             {
-              title: "A15 Bionic Chip and Neural Engine",
+              title: 'A15 Bionic Chip and Neural Engine',
               text: [
-                "The iPad Mini (6th Gen) is equipped with the powerful A15 Bionic chip and Neural Engine, delivering fast and efficient performance. It can handle demanding tasks and graphics-intensive apps with ease, making it suitable for both work and play.",
-                "Experience smooth multitasking, immersive gaming, and seamless app usage on the iPad Mini."
-              ]
+                'The iPad Mini (6th Gen) is equipped with the powerful A15 Bionic chip and Neural Engine, delivering fast and efficient performance. It can handle demanding tasks and graphics-intensive apps with ease, making it suitable for both work and play.',
+                'Experience smooth multitasking, immersive gaming, and seamless app usage on the iPad Mini.',
+              ],
             },
             {
-              title: "Advanced Cameras and Center Stage",
+              title: 'Advanced Cameras and Center Stage',
               text: [
                 "Capture stunning photos and videos with the iPad Mini's advanced cameras. With a 12MP front camera and a 12MP rear camera, you can take high-quality shots and record impressive videos.",
-                "The iPad Mini also features Center Stage, a feature that automatically keeps you in frame during video calls, making your conversations more engaging and dynamic."
-              ]
-            }
+                'The iPad Mini also features Center Stage, a feature that automatically keeps you in frame during video calls, making your conversations more engaging and dynamic.',
+              ],
+            },
           ]),
           resolution: '2266x1488',
           screen: "8.3' Liquid Retina",
@@ -618,6 +618,108 @@ module.exports = {
           camera: '12MP',
           zoom: 'Digital zoom up to 5x',
           year: '2021',
+        },
+        {
+          name: 'Apple iPad 10.2 (2020)',
+          brand: 'Apple',
+          categoryId: 2,
+          description: JSON.stringify([
+            {
+              title: "Versatile and Affordable",
+              text: [
+                "The Apple iPad 10.2 (2020) offers a versatile and affordable option for everyday tasks and entertainment. Whether you're browsing the web, streaming content, or using productivity apps, it delivers a smooth and responsive experience.",
+                "With its large 10.2-inch Retina display, it provides a great viewing experience for all your content."
+              ]
+            },
+            {
+              title: "Powerful Performance",
+              text: [
+                "Experience powerful performance with the iPad 10.2's A12 Bionic chip. It enables fast and efficient multitasking, allowing you to run multiple apps smoothly and seamlessly.",
+                "From gaming to editing documents, the iPad 10.2 can handle it all with ease."
+              ]
+            },
+            {
+              title: "Apple Pencil and Smart Keyboard Support",
+              text: [
+                "Unlock your creativity and productivity with Apple Pencil and Smart Keyboard support. Take notes, draw, and sketch with precision using the Apple Pencil (1st generation), and transform your iPad into a lightweight laptop with the Smart Keyboard.",
+                "The iPad 10.2 adapts to your needs, whether you're a student, professional, or creative artist."
+              ]
+            }
+          ]),
+          resolution: '2160x1620',
+          screen: "10.2' Retina",
+          processor: 'Apple A12 Bionic',
+          ram: '3GB',
+          camera: '8MP',
+          zoom: 'Digital zoom up to 5x',
+          year: '2020',
+        },
+        {
+          name: 'Apple iPad Mini (5th Gen)',
+          brand: 'Apple',
+          categoryId: 2,
+          description: JSON.stringify([
+            {
+              title: "Compact and Powerful",
+              text: [
+                "The Apple iPad Mini (5th Gen) packs a punch with its compact size and powerful performance. Whether you're on the go or at home, it's perfect for productivity, entertainment, and creativity.",
+                "With its A12 Bionic chip, the iPad Mini delivers fast and efficient performance, allowing you to run demanding apps and games smoothly."
+              ]
+            },
+            {
+              title: "Retina Display and True Tone",
+              text: [
+                "Experience stunning visuals on the iPad Mini's Retina display. With True Tone technology, it adjusts the display's color temperature to match the ambient lighting, providing a natural and comfortable viewing experience.",
+                "From reading ebooks to browsing photos, the iPad Mini's display brings content to life with vibrant colors and sharp details."
+              ]
+            },
+            {
+              title: "Apple Pencil and Smart Keyboard Support",
+              text: [
+                "Unlock your creativity and productivity with Apple Pencil and Smart Keyboard support. Take notes, sketch, and annotate documents with precision using the Apple Pencil (1st generation), and turn your iPad Mini into a versatile workstation with the Smart Keyboard.",
+                "The iPad Mini adapts to your needs, making it a powerful tool for both work and play."
+              ]
+            }
+          ]),
+          resolution: '2048x1536',
+          screen: "7.9' Retina",
+          processor: 'Apple A12 Bionic',
+          ram: '3GB',
+          camera: '8MP',
+          zoom: 'Digital zoom up to 5x',
+          year: '2019',
+        },
+        {
+          name: 'Apple Watch Series 6',
+          brand: 'Apple',
+          categoryId: 3,
+          description: JSON.stringify([
+            {
+              title: "Always-On Retina display",
+              text: [
+                "The Apple Watch Series 6 features an Always-On Retina display that is 2.5 times brighter outdoors when your wrist is down. So you can see all the information on your watch face at a glance."
+              ]
+            },
+            {
+              title: "Blood oxygen sensor",
+              text: [
+                "The Blood Oxygen app measures your blood oxygen levels with a revolutionary new sensor and app. You can also take an ECG from your wrist anytime, anywhere."
+              ]
+            },
+            {
+              title: "Track your daily activity",
+              text: [
+                "The Apple Watch Series 6 tracks your daily activity including workouts, steps taken, and calories burned. It also has a built-in GPS to track your runs, walks, and hikes."
+              ]
+            }
+          ]),
+          resolution: '324x394',
+          screen: "1.57' OLED",
+          processor: 'Apple S6',
+          ram: '1GB',
+          camera: '8MP',
+          zoom: 'Digital zoom up to 5x',
+          year: '2019',
         },
 
       ],

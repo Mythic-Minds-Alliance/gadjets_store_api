@@ -6,6 +6,8 @@ export const TYPES = {
   ProductController: Symbol.for('ProductController'),
   ShoppingCartController: Symbol.for('ShoppingCartController'),
   ShoppingCartService: Symbol.for('ShoppingCartService'),
+  FavouriteService: Symbol.for('FavouriteService'),
+  FavouritesController: Symbol.for('FavouritesController'),
   SequelizeService: Symbol('SequelizeService'),
   ExceptionFilter: Symbol.for('ExceptionFilter'),
   ConfigService: Symbol.for('ConfigService'),

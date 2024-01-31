@@ -8,6 +8,17 @@ import { IProductController } from '../interfaces/products.controller.interface'
 import { IConfigService } from '../interfaces/config.service.interface';
 import { ISequelize } from '../interfaces/sequelize.interface';
 import { Filter } from '../types/filter.type';
+import { validationResult } from 'express-validator';
+
+type SortOrder = 'ASC' | 'DESC';
+type QueryParameter =
+  | string
+  | number
+  | boolean
+  | string[]
+  | number[]
+  | boolean[];
+type CategoryId = number[] | undefined;
 
 @injectable()
 export class ProductController
@@ -21,7 +32,17 @@ export class ProductController
   ) {
     super(loggerService);
     this.bindRoutes([
-      { path: '/products', method: 'get', func: this.getProductsByProps },
+      { path: '/', method: 'get', func: this.getProductsByProps },
+      {
+        path: '/recommended',
+        method: 'get',
+        func: this.getRecommendedProducts,
+      },
+      {
+        path: '/hotPrices',
+        method: 'get',
+        func: this.getProductsHotPrices,
+      },
     ]);
   }
 
@@ -37,6 +58,7 @@ export class ProductController
     'sortBy',
     'limit',
     'offset',
+    'hotPrices',
   ];
 
   /**
@@ -93,7 +115,7 @@ export class ProductController
    *         schema:
    *           type: string
    *         description: |
-   *            The field to sort by. Possible sortBy orders: price, priceDiscount, capacity, ram and year!
+   *            The field to sort by. Possible sortBy orders: price, priceActual, capacity, ram and year!
    *       - in: query
    *         name: limit
    *         schema:
@@ -114,8 +136,8 @@ export class ProductController
    *               items:
    *                 $ref: 'product.model.ts'
    */
-  private validateSort(sort: unknown): string {
-    if (typeof sort !== 'string' || (sort !== 'ASC' && sort !== 'DESC')) {
+  private validateSort(sort: SortOrder): SortOrder {
+    if (sort !== 'ASC' && sort !== 'DESC') {
       throw new Error(
         'Parameter "sort" should be a string with value "ASC" or "DESC".',
       );
@@ -135,7 +157,7 @@ export class ProductController
     }
   }
 
-  private validateQueryParameters(query: Record<string, unknown>): void {
+  private validateQueryParameters(query: Record<string, QueryParameter>): void {
     Object.keys(query).forEach((key) => {
       if (!this.validFields.includes(key)) {
         throw new Error(`Invalid query parameter: ${key}`);
@@ -143,7 +165,7 @@ export class ProductController
     });
   }
 
-  private parseCategoryId(categoryId: unknown): number[] | undefined {
+  private parseCategoryId(categoryId: QueryParameter): CategoryId {
     if (!categoryId) return undefined;
 
     if (typeof categoryId === 'string') {
@@ -151,8 +173,6 @@ export class ProductController
     } else if (Array.isArray(categoryId)) {
       return categoryId.map(Number);
     }
-
-    return undefined;
   }
 
   async getProductsByProps(
@@ -177,7 +197,7 @@ export class ProductController
 
       const filter: Filter = {
         productId: productId ? +productId : undefined,
-        categoryId: this.parseCategoryId(categoryId),
+        categoryId: this.parseCategoryId(categoryId as QueryParameter),
         color: color as string,
         capacity: capacity as string,
         brand: brand as string,
@@ -185,15 +205,15 @@ export class ProductController
         year: year ? +year : undefined,
       };
 
-      this.validateQueryParameters(req.query);
-      const validatedSort = this.validateSort(sort);
+      this.validateQueryParameters(req.query as Record<string, QueryParameter>);
+      const validatedSort = this.validateSort(sort as SortOrder);
       const validatedSortBy = this.validateSortBy(sortBy);
 
       if (validatedSortBy !== undefined) {
         this.validateCategoryId(validatedSortBy, filter);
       }
 
-      const product = await this.sequalizeService.getProductsByProps(
+      const products = await this.sequalizeService.getProductsByProps(
         filter,
         +limit,
         +offset,
@@ -201,13 +221,101 @@ export class ProductController
         validatedSortBy,
       );
 
-      console.log(product.length);
+      console.log(products.length);
 
-      if (!product) {
+      if (!products) {
         throw new Error('No products found with the given parameters.');
       }
 
-      res.json(product);
+      const fix = products.map((product) => {
+        const fixedPrice =
+          Number(product.priceActual) === 0
+            ? Number(product.price)
+            : Number(product.priceActual);
+
+        return { ...product, priceActual: fixedPrice };
+      });
+
+      res.json(fix);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async getRecommendedProducts(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        res.status(400).json({ errors: errors.array() });
+      }
+
+      const { categoryId } = req.query;
+
+      const filter: Filter = {
+        categoryId: this.parseCategoryId(categoryId as QueryParameter),
+      };
+
+      const limit = 1000;
+      const offset = 0;
+
+      const products = await this.sequalizeService.getProductsByProps(
+        filter,
+        limit,
+        offset,
+      );
+
+      if (!products || products.length === 0) {
+        throw new Error('No products found.');
+      }
+
+      const recommendedProducts = products.filter((product) => {
+        const discount = product.price - product.priceActual;
+        return product.priceActual > 0 && discount > 30 && discount <= 60;
+      });
+
+      if (!recommendedProducts || recommendedProducts.length === 0) {
+        throw new Error('No recommended products found.');
+      }
+
+      res.json(recommendedProducts);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async getProductsHotPrices(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const limit = 10000;
+      const offset = 0;
+
+      const products = await this.sequalizeService.getProductsByProps(
+        {},
+        limit,
+        offset,
+      );
+
+      if (!products || products.length === 0) {
+        throw new Error('No products found.');
+      }
+
+      const hotPriceProducts = products.filter((product) => {
+        const discount = product.price - product.priceActual;
+        return product.priceActual > 0 && discount > 65;
+      });
+
+      if (!hotPriceProducts || hotPriceProducts.length === 0) {
+        throw new Error('No products with hot prices found.');
+      }
+
+      res.json(hotPriceProducts);
     } catch (err) {
       next(err);
     }

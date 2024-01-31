@@ -993,6 +993,31 @@ module.exports = {
         },
         {
           productId: 14,
+          colorId: 2,
+          imageUrl: 'img/phones/apple-iphone-xs/silver/00.webp',
+        },
+        {
+          productId: 14,
+          colorId: 2,
+          imageUrl: 'img/phones/apple-iphone-xs/silver/01.webp',
+        },
+        {
+          productId: 14,
+          colorId: 2,
+          imageUrl: 'img/phones/apple-iphone-xs/silver/02.webp',
+        },
+        {
+          productId: 14,
+          colorId: 2,
+          imageUrl: 'img/phones/apple-iphone-xs/silver/03.webp',
+        },
+        {
+          productId: 14,
+          colorId: 2,
+          imageUrl: 'img/phones/apple-iphone-xs/silver/04.webp',
+        },
+        {
+          productId: 14,
           colorId: 3,
           imageUrl: 'img/phones/apple-iphone-xs/gold/00.webp',
         },
@@ -1301,6 +1326,112 @@ module.exports = {
           colorId: 12,
           imageUrl: 'img/tablets/apple-ipad-mini-6th-gen/pink/02.webp',
         },
+        {
+          productId: 19,
+          colorId: 3,
+          imageUrl: 'img/tablets/apple-ipad-10-2-2020/gold/00.webp',
+        },
+        {
+          productId: 19,
+          colorId: 3,
+          imageUrl: 'img/tablets/apple-ipad-10-2-2020/gold/01.webp',
+        },
+        {
+          productId: 19,
+          colorId: 3,
+          imageUrl: 'img/tablets/apple-ipad-10-2-2020/gold/02.webp',
+        },
+        {
+          productId: 19,
+          colorId: 3,
+          imageUrl: 'img/tablets/apple-ipad-10-2-2020/gold/03.webp',
+        },
+        {
+          productId: 19,
+          colorId: 2,
+          imageUrl: 'img/tablets/apple-ipad-10-2-2020/silver/00.webp',
+        },
+        {
+          productId: 19,
+          colorId: 2,
+          imageUrl: 'img/tablets/apple-ipad-10-2-2020/silver/01.webp',
+        },
+        {
+          productId: 19,
+          colorId: 2,
+          imageUrl: 'img/tablets/apple-ipad-10-2-2020/silver/02.webp',
+        },
+        {
+          productId: 19,
+          colorId: 2,
+          imageUrl: 'img/tablets/apple-ipad-10-2-2020/silver/03.webp',
+        },
+        {
+          productId: 19,
+          colorId: 1,
+          imageUrl: 'img/tablets/apple-ipad-10-2-2020/spacegray/00.webp',
+        },
+        {
+          productId: 19,
+          colorId: 1,
+          imageUrl: 'img/tablets/apple-ipad-10-2-2020/spacegray/01.webp',
+        },
+        {
+          productId: 19,
+          colorId: 1,
+          imageUrl: 'img/tablets/apple-ipad-10-2-2020/spacegray/02.webp',
+        },
+        {
+          productId: 19,
+          colorId: 1,
+          imageUrl: 'img/tablets/apple-ipad-10-2-2020/spacegray/03.webp',
+        },
+        {
+          productId: 20,
+          colorId: 1,
+          imageUrl: 'img/tablets/apple-ipad-mini-5th-gen/spacegray/00.webp',
+        },
+        {
+          productId: 20,
+          colorId: 1,
+          imageUrl: 'img/tablets/apple-ipad-mini-5th-gen/spacegray/01.webp',
+        },
+        {
+          productId: 20,
+          colorId: 2,
+          imageUrl: 'img/tablets/apple-ipad-mini-5th-gen/silver/00.webp',
+        },
+        {
+          productId: 20,
+          colorId: 2,
+          imageUrl: 'img/tablets/apple-ipad-mini-5th-gen/silver/01.webp',
+        },
+        {
+          productId: 20,
+          colorId: 3,
+          imageUrl: 'img/tablets/apple-ipad-mini-5th-gen/gold/00.webp',
+        },
+        {
+          productId: 20,
+          colorId: 3,
+          imageUrl: 'img/tablets/apple-ipad-mini-5th-gen/gold/01.webp',
+        },
+        {
+          productId: 21,
+          colorId: 1,
+          imageUrl: 'img/accessories/apple-watch-series-6/space-gray/00.webp',
+        },
+        {
+          productId: 21,
+          colorId: 1,
+          imageUrl: 'img/accessories/apple-watch-series-6/space-gray/01.webp',
+        },
+        {
+          productId: 21,
+          colorId: 1,
+          imageUrl: 'img/accessories/apple-watch-series-6/space-gray/02.webp',
+        },
+
 
       ],
       {},

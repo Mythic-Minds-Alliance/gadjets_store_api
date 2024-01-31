@@ -17,6 +17,9 @@ import { RoleModel, UsersRolesModel } from '../models/users.roles.model';
 import { ProductsCapacitiesColorsModel } from '../models/products_capacities_colors.model';
 import { ProductColorImageModel } from '../models/product_color_images.model';
 import { ProductResult } from '../interfaces/productResult.interface';
+import { CartItemModel } from '../models/cartItem.model';
+import { FavouriteModel } from '../models/favourites.model';
+import { ShoppingCartsModel } from '../models/shoppingCarts.model';
 
 @injectable()
 export class SequelizeService implements ISequelize {
@@ -59,6 +62,9 @@ export class SequelizeService implements ISequelize {
       UserModel,
       UsersRolesModel,
       RoleModel,
+      ShoppingCartsModel,
+      CartItemModel,
+      FavouriteModel
     ]);
 
     this.logger.log('[Sequelize] Connected to db successfully');
@@ -70,7 +76,7 @@ export class SequelizeService implements ISequelize {
   ): string {
     switch (field) {
       case 'price':
-      case 'priceDiscount':
+      case 'priceActual':
         return `productCapacitiesColorsPrices."${field}"`;
 
       case 'capacity':
@@ -164,7 +170,7 @@ export class SequelizeService implements ISequelize {
           color.name AS color,
           productColors.colorsAvailable,
           productCapacitiesColorsPrices."price",
-          productCapacitiesColorsPrices."priceDiscount",
+          productCapacitiesColorsPrices."priceActual",
           product.brand,
           product."categoryId",
           product.description,

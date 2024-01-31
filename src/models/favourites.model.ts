@@ -34,6 +34,13 @@ export class FavouriteModel extends Model {
   @Column(DataType.INTEGER)
   productId: number;
 
+  @Column(DataType.STRING)
+  color: string;
+
+  @Column(DataType.STRING)
+  capacity: string;
+
+
   @BelongsTo(() => ProductModel)
   product: ProductModel;
 }

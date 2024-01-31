@@ -4,7 +4,7 @@ import { inject, injectable } from 'inversify';
 import { TYPES } from '../types/types';
 import { IConfigService } from '../interfaces/config.service.interface';
 import { HTTPError } from '../errors/http-error.class';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload, sign } from 'jsonwebtoken';
 import { IMiddleware } from '../interfaces/middleware.interface';
 
 @injectable()
@@ -14,11 +14,7 @@ export class AdminGuard implements IMiddleware {
     @inject(TYPES.UserService) private userService: IUserService,
   ) {}
 
-  async execute(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ): Promise<void> {
+  async execute(req: Request, res: Response, next: NextFunction) {
     const token = req.headers.authorization?.split(' ')[1];
     const secret = this.configService?.get('SECRET');
 

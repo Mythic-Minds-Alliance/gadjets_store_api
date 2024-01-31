@@ -37,7 +37,7 @@ export class ProductsCapacitiesColorsModel extends Model {
 
   @AllowNull(false)
   @Column(DataType.BIGINT)
-  priceDiscount: number;
+  priceActual: number;
 
   @BelongsTo(() => ProductModel)
   product: ProductModel;

@@ -42,7 +42,7 @@ class UserModel extends Model {
   @Column(DataType.STRING)
   lastName!: string;
 
-  @BelongsToMany(() => RoleModel, () => UsersRolesModel)
+  @BelongsToMany(() => RoleModel, () => UsersRolesModel, 'userId', 'roleId')
   roles!: RoleModel[];
 }
 

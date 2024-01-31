@@ -21,6 +21,10 @@ import { ShoppingCartController } from './controllers/shoppingCarts.controller';
 import { IShoppingCartController } from './interfaces/shoppingCart.controller.interface';
 import { IShoppingCartService } from './interfaces/shoppingCart.interface';
 import { ShoppingCartService } from './services/shoppingCart.service';
+import { FavouritesController } from './controllers/favourite.controller';
+import { IFavouritesController } from './interfaces/favourite.controller.interface';
+import { IFavouriteService } from './interfaces/favoutire.service.interface';
+import { FavouriteService } from './services/favourite.service';
 
 export interface IBootstrapReturn {
   appContainer: Container;
@@ -31,11 +35,15 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
   bind<ILogger>(TYPES.ILogger).to(LoggerService).inSingletonScope();
   bind<IExceptionFilter>(TYPES.ExceptionFilter).to(ExceptionFilter);
   bind<IUserService>(TYPES.UserService).to(UserService);
+  bind<IFavouriteService>(TYPES.FavouriteService).to(FavouriteService);
   bind<IUserController>(TYPES.UserController).to(UserController);
   bind<IShoppingCartService>(TYPES.ShoppingCartService).to(ShoppingCartService);
   bind<IProductController>(TYPES.ProductController).to(ProductController);
   bind<IShoppingCartController>(TYPES.ShoppingCartController).to(
     ShoppingCartController,
+  );
+  bind<IFavouritesController>(TYPES.FavouritesController).to(
+    FavouritesController,
   );
   bind<ISequelize>(TYPES.SequelizeService)
     .to(SequelizeService)
