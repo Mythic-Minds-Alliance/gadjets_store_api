@@ -34,7 +34,7 @@ export class ProductController
     this.bindRoutes([
       { path: '/', method: 'get', func: this.getProductsByProps },
       {
-        path: '/recommended',
+        path: '/recommended/:categoryId',
         method: 'get',
         func: this.getRecommendedProducts,
       },
@@ -233,24 +233,7 @@ export class ProductController
         throw new Error('No products found with the given parameters.');
       }
 
-      const fix = products.map((product) => {
-        const fixedPrice =
-          Number(product.priceActual) === 0
-            ? Number(product.price)
-            : Number(product.priceActual);
-
-        return { ...product, priceActual: fixedPrice };
-      });
-
-      fix.sort((a, b) => {
-        if (sort === 'ASC') {
-          return a.priceActual - b.priceActual;
-        } else {
-          return b.priceActual - a.priceActual;
-        }
-      });
-
-      res.json(fix);
+      res.json(products);
     } catch (err) {
       next(err);
     }
