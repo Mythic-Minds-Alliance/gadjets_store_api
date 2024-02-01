@@ -239,7 +239,15 @@ export class ProductController
             ? Number(product.price)
             : Number(product.priceActual);
 
-        return { ...product, priceActual: String(fixedPrice) };
+        return { ...product, priceActual: fixedPrice };
+      });
+
+      fix.sort((a, b) => {
+        if (sort === 'ASC') {
+          return a.priceActual - b.priceActual;
+        } else {
+          return b.priceActual - a.priceActual;
+        }
       });
 
       res.json(fix);
