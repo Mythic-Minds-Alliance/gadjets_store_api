@@ -55,6 +55,7 @@ export class ProductController
     'ram',
     'year',
     'screen',
+    'name',
     'sort',
     'sortBy',
     'limit',
@@ -190,6 +191,7 @@ export class ProductController
         brand,
         ram,
         year,
+        name,
         screen,
         sort = 'ASC',
         sortBy = '',
@@ -206,6 +208,7 @@ export class ProductController
         screen: screen as string,
         ram: ram as string,
         year: year ? +year : undefined,
+        name: name as string,
       };
 
       this.validateQueryParameters(req.query as Record<string, QueryParameter>);

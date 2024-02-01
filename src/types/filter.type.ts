@@ -7,4 +7,5 @@ export interface Filter {
   ram?: string;
   year?: number;
   screen?: string;
+  name?: string;
 }

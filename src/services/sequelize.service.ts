@@ -206,11 +206,14 @@ export class SequelizeService implements ISequelize {
           1=1
   `;
 
-    Object.keys(filter).forEach((key) => {
-      if (filter[key]) {
-        query += this.buildFilterCondition(key, filter[key]);
+  Object.keys(filter).forEach((key) => {
+    if (filter[key]) {
+      if (key === 'name') {
+        filter[key] = `%${filter[key]}%`;
       }
-    });
+      query += this.buildFilterCondition(key, filter[key]);
+    }
+  });
 
     if (sortBy) {
       query += `
@@ -252,8 +255,10 @@ export class SequelizeService implements ISequelize {
         return ` AND product.ram = :${key}`;
       case 'year':
         return ` AND product.year = :${key}`;
-        case 'screen':
+      case 'screen':
         return ` AND product.screen = :${key}`;
+      case 'name':
+        return ` AND product.name LIKE :${key}`;
       default:
         throw new Error(`Invalid filter key: ${key}`);
     }

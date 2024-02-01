@@ -544,7 +544,7 @@ module.exports = {
           resolution: '1792х828',
           screen: "6.1' IPS",
           processor: 'Apple A12 Bionic',
-          ram: '43B',
+          ram: '4GB',
           camera: '12 Mp + 7 MP',
           zoom: 'Digital, 5x',
           year: '2018',
