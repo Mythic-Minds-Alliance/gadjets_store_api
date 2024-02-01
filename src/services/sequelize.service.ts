@@ -36,9 +36,9 @@ export class SequelizeService implements ISequelize {
       password:
         this.configService.get('DB_PASSWORD') || process.env.DB_PASSWORD,
       database: this.configService.get('DB_NAME') || process.env.DB_NAME,
-      dialectOptions: {
+     /*  dialectOptions: {
         ssl: true,
-      },
+      }, */
       define: {
         scopes: {
           excludeCreatedAtUpdateAt: {
