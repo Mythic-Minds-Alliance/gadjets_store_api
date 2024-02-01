@@ -7,7 +7,7 @@ import {
   ForeignKey,
 } from 'sequelize-typescript';
 import { ProductModel } from './product.model';
-import { CellModel } from './cell.model';
+import { CellModel } from '../productDetails/cell.model';
 
 @Table({
   tableName: 'products_cells',

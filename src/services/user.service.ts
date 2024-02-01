@@ -2,12 +2,12 @@ import { injectable } from 'inversify/lib/annotation/injectable';
 import { UserLoginDto } from '../dto/user-login.dto';
 import { UserRegisterDto } from '../dto/user-register.dto';
 import { User } from '../entities/user.entity';
-import { IUserService } from '../interfaces/user.service.interface';
+import { IUserService } from '../interfaces/users/user.service.interface';
 import { TYPES } from '../types/types';
-import { IConfigService } from '../interfaces/config.service.interface';
+import { IConfigService } from '../interfaces/common/config.service.interface';
 import { inject } from 'inversify';
-import { IUsersRepository } from '../interfaces/users.repository.interface';
-import { UserModel, UsersRolesModel } from '../models/users.roles.model';
+import { IUsersRepository } from '../interfaces/users/users.repository.interface';
+import { UserModel, UsersRolesModel } from '../models/users/users.roles.model';
 
 @injectable()
 export class UserService implements IUserService {

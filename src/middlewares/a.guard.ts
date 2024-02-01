@@ -1,9 +1,9 @@
-import { IMiddleware } from '../interfaces/middleware.interface';
+import { IMiddleware } from '../interfaces/common/middleware.interface';
 import { Request, Response, NextFunction } from 'express';
 import { inject } from 'inversify/lib/annotation/inject';
 import { TYPES } from '../types/types';
 import { injectable } from 'inversify';
-import { IUsersRepository } from '../interfaces/users.repository.interface';
+import { IUsersRepository } from '../interfaces/users/users.repository.interface';
 
 @injectable()
 export class AuthGuard implements IMiddleware {

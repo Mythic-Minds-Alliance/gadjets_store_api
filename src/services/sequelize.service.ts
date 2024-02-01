@@ -1,25 +1,25 @@
 /* eslint-disable */
 import { inject, injectable } from 'inversify';
 import { Sequelize } from 'sequelize-typescript';
-import { ISequelize } from '../interfaces/sequelize.interface';
-import { ProductModel } from '../models/product.model';
-import { CategoryModel } from '../models/category.model';
-import { ColorModel } from '../models/colors.model';
-import { ImageModel } from '../models/image.model';
-import { CapacityModel } from '../models/capacity.model';
-import { CellModel } from '../models/cell.model';
-import { ProductsCells } from '../models/products_cells.model';
-import { IConfigService } from '../interfaces/config.service.interface';
+import { ISequelize } from '../interfaces/db/sequelize.interface';
+import { ProductModel } from '../models/products/product.model';
+import { CategoryModel } from '../models/productDetails/category.model';
+import { ColorModel } from '../models/productDetails/colors.model';
+import { ImageModel } from '../models/productDetails/image.model';
+import { CapacityModel } from '../models/productDetails/capacity.model';
+import { CellModel } from '../models/productDetails/cell.model';
+import { ProductsCells } from '../models/products/products_cells.model';
+import { IConfigService } from '../interfaces/common/config.service.interface';
 import { TYPES } from '../types/types';
-import { ILogger } from '../interfaces/logger.interface';
-import { UserModel } from '../models/user.model';
-import { RoleModel, UsersRolesModel } from '../models/users.roles.model';
-import { ProductsCapacitiesColorsModel } from '../models/products_capacities_colors.model';
-import { ProductColorImageModel } from '../models/product_color_images.model';
-import { ProductResult } from '../interfaces/productResult.interface';
-import { CartItemModel } from '../models/cartItem.model';
-import { FavouriteModel } from '../models/favourites.model';
-import { ShoppingCartsModel } from '../models/shoppingCarts.model';
+import { ILogger } from '../interfaces/common/logger.interface';
+import { UserModel } from '../models/users/user.model';
+import { RoleModel, UsersRolesModel } from '../models/users/users.roles.model';
+import { ProductsCapacitiesColorsModel } from '../models/products/products_capacities_colors.model';
+import { ProductColorImageModel } from '../models/products/product_color_images.model';
+import { ProductResult } from '../interfaces/products/productResult.interface';
+import { CartItemModel } from '../models/shoppingCart/cartItem.model';
+import { FavouriteModel } from '../models/favourites/favourites.model';
+import { ShoppingCartsModel } from '../models/shoppingCart/shoppingCarts.model';
 
 @injectable()
 export class SequelizeService implements ISequelize {
@@ -91,6 +91,8 @@ export class SequelizeService implements ISequelize {
       case 'year':
         return `product."year"`;
 
+      case 'screen':
+        return `CAST(SUBSTRING(product."screen", '([0-9]+\\.?[0-9]*)') AS DOUBLE PRECISION)`;
       default:
         throw new Error(`Invalid field: ${field}`);
     }
@@ -250,6 +252,8 @@ export class SequelizeService implements ISequelize {
         return ` AND product.ram = :${key}`;
       case 'year':
         return ` AND product.year = :${key}`;
+        case 'screen':
+        return ` AND product.screen = :${key}`;
       default:
         throw new Error(`Invalid filter key: ${key}`);
     }

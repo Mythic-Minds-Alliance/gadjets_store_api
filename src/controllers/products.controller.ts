@@ -3,12 +3,12 @@ import { TYPES } from '../types/types';
 import { NextFunction, Request, Response } from 'express';
 import { BaseController } from '../controllers/base.controller';
 import { inject, injectable } from 'inversify';
-import { ILogger } from '../interfaces/logger.interface';
-import { IProductController } from '../interfaces/products.controller.interface';
-import { IConfigService } from '../interfaces/config.service.interface';
-import { ISequelize } from '../interfaces/sequelize.interface';
+import { ILogger } from '../interfaces/common/logger.interface';
+import { IConfigService } from '../interfaces/common/config.service.interface';
+import { ISequelize } from '../interfaces/db/sequelize.interface';
 import { Filter } from '../types/filter.type';
 import { validationResult } from 'express-validator';
+import { IProductController } from '../interfaces/products/products.controller.interface';
 
 type SortOrder = 'ASC' | 'DESC';
 type QueryParameter =
@@ -54,6 +54,7 @@ export class ProductController
     'brand',
     'ram',
     'year',
+    'screen',
     'sort',
     'sortBy',
     'limit',
@@ -189,6 +190,7 @@ export class ProductController
         brand,
         ram,
         year,
+        screen,
         sort = 'ASC',
         sortBy = '',
         limit = 1000,
@@ -201,6 +203,7 @@ export class ProductController
         color: color as string,
         capacity: capacity as string,
         brand: brand as string,
+        screen: screen as string,
         ram: ram as string,
         year: year ? +year : undefined,
       };

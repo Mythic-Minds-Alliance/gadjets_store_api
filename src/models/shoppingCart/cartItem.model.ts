@@ -12,7 +12,7 @@ import {
 } from 'sequelize-typescript';
 import { DataType } from 'sequelize-typescript';
 import { ShoppingCartsModel } from './shoppingCarts.model';
-import { ProductModel } from './product.model';
+import { ProductModel } from '../products/product.model';
 
 @Table({
   tableName: 'cart_items',

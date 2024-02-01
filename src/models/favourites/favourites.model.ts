@@ -9,38 +9,37 @@ import {
   PrimaryKey,
   Table,
 } from 'sequelize-typescript';
-import { UserModel } from './user.model';
-import { ProductModel } from './product.model';
-import { OrderModel } from './orders.model';
+import { UserModel } from '../users/user.model';
+import { ProductModel } from '../products/product.model';
 
 @Table({
-  tableName: 'order_items',
+  tableName: 'favourites',
   createdAt: false,
   updatedAt: false,
 })
-export class OrderItemsModel extends Model {
+export class FavouriteModel extends Model {
   @AutoIncrement
   @PrimaryKey
   @Column(DataType.INTEGER)
   id: number;
 
-  @ForeignKey(() => OrderModel)
+  @ForeignKey(() => UserModel)
   @Column(DataType.INTEGER)
-  order_id: number;
+  userId: number;
+
+  @BelongsTo(() => UserModel)
+  user: UserModel;
 
   @ForeignKey(() => ProductModel)
   @Column(DataType.INTEGER)
-  product_id: number;
+  productId: number;
 
-  @BelongsTo(() => OrderModel)
-  order: OrderModel;
+  @Column(DataType.STRING)
+  color: string;
+
+  @Column(DataType.STRING)
+  capacity: string;
 
   @BelongsTo(() => ProductModel)
   product: ProductModel;
-
-  @Column(DataType.INTEGER)
-  quantity: number;
-
-  @Column(DataType.DECIMAL(10, 2))
-  price: number;
 }

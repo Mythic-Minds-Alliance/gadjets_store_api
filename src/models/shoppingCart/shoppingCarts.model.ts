@@ -10,7 +10,7 @@ import {
   HasMany,
 } from 'sequelize-typescript';
 import { DataType } from 'sequelize-typescript';
-import { UserModel } from './users.roles.model';
+import { UserModel } from '../users/users.roles.model';
 import { CartItemModel } from './cartItem.model';
 
 @Table({

@@ -8,7 +8,7 @@ import {
   ForeignKey,
 } from 'sequelize-typescript';
 import { DataType } from 'sequelize-typescript';
-import { ProductModel } from './product.model';
+import { ProductModel } from '../products/product.model';
 
 @Table({
   tableName: 'images',

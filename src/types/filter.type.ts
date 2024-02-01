@@ -6,4 +6,5 @@ export interface Filter {
   brand?: string;
   ram?: string;
   year?: number;
+  screen?: string;
 }

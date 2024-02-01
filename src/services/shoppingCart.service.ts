@@ -1,12 +1,12 @@
 import { injectable, inject } from 'inversify';
-import { ILogger } from '../interfaces/logger.interface';
-import { ShoppingCartsModel } from '../models/shoppingCarts.model';
-import { CartItemModel } from '../models/cartItem.model';
+import { ILogger } from '../interfaces/common/logger.interface';
+import { ShoppingCartsModel } from '../models/shoppingCart/shoppingCarts.model';
+import { CartItemModel } from '../models/shoppingCart/cartItem.model';
 import { TYPES } from '../types/types';
-import { IShoppingCartService } from '../interfaces/shoppingCart.interface';
+import { IShoppingCartService } from '../interfaces/shoppingCart/shoppingCart.interface';
 import { SequelizeService } from './sequelize.service';
 import { Filter } from '../types/filter.type';
-import { ProductResult } from '../interfaces/productResult.interface';
+import { ProductResult } from '../interfaces/products/productResult.interface';
 
 @injectable()
 export class ShoppingCartService implements IShoppingCartService {

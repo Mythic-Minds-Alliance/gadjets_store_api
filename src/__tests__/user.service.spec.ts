@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 import { Container } from 'inversify';
-import { IConfigService } from '../interfaces/config.service.interface';
-import { IUsersRepository } from '../interfaces/users.repository.interface';
-import { IUserService } from '../interfaces/user.service.interface';
+import { IConfigService } from '../interfaces/common/config.service.interface';
+import { IUsersRepository } from '../interfaces/users/users.repository.interface';
+import { IUserService } from '../interfaces/users/user.service.interface';
 import { TYPES } from '../types/types';
 import { UserService } from '../services/user.service';
 import { User } from '../entities/user.entity';

@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import { body, validationResult } from 'express-validator';
 import { inject, injectable } from 'inversify';
-import { ILogger } from '../interfaces/logger.interface';
-import { IShoppingCartService } from '../interfaces/shoppingCart.interface';
+import { ILogger } from '../interfaces/common/logger.interface';
+import { IShoppingCartService } from '../interfaces/shoppingCart/shoppingCart.interface';
 import { TYPES } from '../types/types';
 import jwt, { JwtPayload, sign } from 'jsonwebtoken';
-import { IConfigService } from '../interfaces/config.service.interface';
-import { IShoppingCartController } from '../interfaces/shoppingCart.controller.interface';
+import { IConfigService } from '../interfaces/common/config.service.interface';
+import { IShoppingCartController } from '../interfaces/shoppingCart/shoppingCart.controller.interface';
 import { BaseController } from './base.controller';
 
 @injectable()

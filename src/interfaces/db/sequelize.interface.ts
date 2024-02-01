@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize-typescript';
-import { ExpressReturnType } from './route.interface';
-import { ProductResult } from './productResult.interface';
+import { ExpressReturnType } from '../common/route.interface';
+import { ProductResult } from '../products/productResult.interface';
 
 export interface ISequelize {
   sequelize: Sequelize;
