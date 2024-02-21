@@ -17,4 +17,5 @@ export interface IShoppingCartService {
     capacity: string,
   ): Promise<void>;
   deleteCartItem(cartItemId: number): Promise<void>;
+  removeAllCarts(userId: number): Promise<void>;
 }

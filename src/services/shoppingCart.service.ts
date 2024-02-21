@@ -220,4 +220,21 @@ export class ShoppingCartService implements IShoppingCartService {
       await shoppingCart?.save();
     }
   }
+
+  async removeAllCarts(userId: number): Promise<void> {
+    const shoppingCart = await ShoppingCartsModel.findOne({
+      where: { userId: userId },
+    });
+
+    const cartItems = await CartItemModel.findAll({
+      where: { shopping_cart_id: shoppingCart?.id },
+    });
+
+    for (const cartItem of cartItems) {
+      await cartItem.destroy();
+    }
+
+    shoppingCart!.total = 0;
+    await shoppingCart?.save();
+  }
 }

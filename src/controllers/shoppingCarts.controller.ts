@@ -43,7 +43,12 @@ export class ShoppingCartController
         func: this.removeFromCart,
       },
       {
-        path: '/deleteCart/:id',
+        path: '/removeAllCarts',
+        method: 'delete',
+        func: this.removeAllCarts,
+      },
+      {
+        path: '/removeCart/:id',
         method: 'delete',
         func: this.deleteCartItem,
       },
@@ -127,6 +132,19 @@ export class ShoppingCartController
       );
 
       res.json('deleted from cart!');
+    } catch (error) {
+      this.loggerService.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  }
+
+  async removeAllCarts(req: Request, res: Response): Promise<void> {
+    try {
+      const userId: number = this.getUserIdFromToken(req);
+
+      await this.shoppingCartService.removeAllCarts(userId);
+
+      res.json('All carts removed and total set to 0!');
     } catch (error) {
       this.loggerService.error(error);
       res.status(500).json({ error: 'Internal Server Error' });
