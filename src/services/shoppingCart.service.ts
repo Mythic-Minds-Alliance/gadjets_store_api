@@ -86,11 +86,9 @@ export class ShoppingCartService implements IShoppingCartService {
         where: {
           shopping_cart_id: shoppingCart?.id,
           product_id: product.id,
-          productName: product.name,
           price: product.price,
           color: color,
           capacity: capacity,
-          image: product.images?.[0],
         },
         defaults: {
           quantity,
@@ -101,8 +99,9 @@ export class ShoppingCartService implements IShoppingCartService {
         await cartItem.update({ quantity: cartItem.quantity + quantity });
       }
 
+      const totalPrice = product.price * quantity;
       await shoppingCart?.update({
-        total: shoppingCart!.total + Number(product.price),
+        total: shoppingCart!.total + totalPrice,
       });
 
       console.log('CartItem created:', cartItem);
@@ -171,7 +170,7 @@ export class ShoppingCartService implements IShoppingCartService {
   }
 
   async getCart(userId: number): Promise<ShoppingCartsModel | null> {
-    const shoppingCart = await ShoppingCartsModel.findOne({
+    let shoppingCart = await ShoppingCartsModel.findOne({
       where: { userId },
       include: [
         {
@@ -179,6 +178,10 @@ export class ShoppingCartService implements IShoppingCartService {
         },
       ],
     });
+
+    if (!shoppingCart) {
+      shoppingCart = await this.createCart(userId, 0);
+    }
 
     return shoppingCart || null;
   }
@@ -207,5 +210,14 @@ export class ShoppingCartService implements IShoppingCartService {
     await shoppingCart?.save();
 
     await cartItem.destroy();
+
+    const remainingItemsCount = await CartItemModel.count({
+      where: { shopping_cart_id: shoppingCart?.id },
+    });
+
+    if (remainingItemsCount === 0) {
+      shoppingCart!.total = 0;
+      await shoppingCart?.save();
+    }
   }
 }

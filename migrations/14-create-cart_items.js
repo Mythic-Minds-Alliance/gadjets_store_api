@@ -31,23 +31,15 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
       },
-      productName: {
+      price: {
         allowNull: false,
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
       },
       color: {
         allowNull: false,
         type: Sequelize.STRING,
       },
       capacity: {
-        allowNull: false,
-        type: Sequelize.STRING,
-      },
-      price: {
-        allowNull: false,
-        type: Sequelize.STRING,
-      },
-      image: {
         allowNull: false,
         type: Sequelize.STRING,
       },

@@ -842,13 +842,6 @@ module.exports = {
         {
           productId: 13,
           capacityId: 5,
-          colorId: 19,
-          price: 1489,
-          priceActual: 1429,
-        },
-        {
-          productId: 13,
-          capacityId: 5,
           colorId: 15,
           price: 1689,
           priceActual: 1689,

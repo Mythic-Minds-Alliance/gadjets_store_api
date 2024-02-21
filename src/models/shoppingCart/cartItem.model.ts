@@ -40,13 +40,7 @@ export class CartItemModel extends Model {
   product: ProductModel;
 
   @Column(DataType.STRING)
-  productName: string;
-
-  @Column(DataType.STRING)
   color: string;
-
-  @Column(DataType.STRING)
-  image: string;
 
   @Column(DataType.STRING)
   capacity: string;
