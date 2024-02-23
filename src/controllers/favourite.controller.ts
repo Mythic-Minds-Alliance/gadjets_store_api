@@ -9,6 +9,7 @@ import jwt from 'jsonwebtoken';
 import { IFavouritesController } from '../interfaces/favourites/favourite.controller.interface';
 import { AdminGuard } from '../middlewares/RequireAdmin.middleware';
 import { AuthGuard } from '../middlewares/auth.guard';
+import { IUserService } from '../interfaces/users/user.service.interface';
 
 @injectable()
 export class FavouritesController
@@ -19,6 +20,7 @@ export class FavouritesController
     @inject(TYPES.ILogger) private loggerService: ILogger,
     @inject(TYPES.FavouriteService)
     private favouritesService: IFavouriteService,
+    @inject(TYPES.UserService) private userService: IUserService,
     @inject(TYPES.ConfigService) private configService: IConfigService,
   ) {
     super(loggerService);
@@ -27,19 +29,28 @@ export class FavouritesController
         path: '/addToFavourites',
         method: 'post',
         func: this.addToFavourites,
-        middlewares: [new AuthGuard()],
+        middlewares: [
+          new AuthGuard(),
+          new AdminGuard(this.configService, this.userService),
+        ],
       },
       {
         path: '/getFavourites',
         method: 'get',
         func: this.getFavourites,
-        middlewares: [new AuthGuard()],
+        middlewares: [
+          new AuthGuard(),
+          new AdminGuard(this.configService, this.userService),
+        ],
       },
       {
         path: '/removeFromFavourites/:id',
         method: 'delete',
         func: this.removeFromFavourites,
-        middlewares: [new AuthGuard()],
+        middlewares: [
+          new AuthGuard(),
+          new AdminGuard(this.configService, this.userService),
+        ],
       },
     ]);
   }

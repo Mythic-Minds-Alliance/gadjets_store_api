@@ -9,6 +9,8 @@ import { IConfigService } from '../interfaces/common/config.service.interface';
 import { IShoppingCartController } from '../interfaces/shoppingCart/shoppingCart.controller.interface';
 import { BaseController } from './base.controller';
 import { AuthGuard } from '../middlewares/auth.guard';
+import { AdminGuard } from '../middlewares/RequireAdmin.middleware';
+import { IUserService } from '../interfaces/users/user.service.interface';
 
 @injectable()
 export class ShoppingCartController
@@ -19,6 +21,7 @@ export class ShoppingCartController
     @inject(TYPES.ILogger) private loggerService: ILogger,
     @inject(TYPES.ShoppingCartService)
     private shoppingCartService: IShoppingCartService,
+    @inject(TYPES.UserService) private userService: IUserService,
     @inject(TYPES.ConfigService) private configService: IConfigService,
   ) {
     super(loggerService);
@@ -27,37 +30,55 @@ export class ShoppingCartController
         path: '/createCart',
         method: 'post',
         func: this.createCart,
-        middlewares: [new AuthGuard()],
+        middlewares: [
+          new AuthGuard(),
+          new AdminGuard(this.configService, this.userService),
+        ],
       },
       {
         path: '/addToCart',
         method: 'post',
         func: this.addToCart,
-        middlewares: [new AuthGuard()],
+        middlewares: [
+          new AuthGuard(),
+          new AdminGuard(this.configService, this.userService),
+        ],
       },
       {
         path: '/getCart',
         method: 'get',
         func: this.getCart,
-        middlewares: [new AuthGuard()],
+        middlewares: [
+          new AuthGuard(),
+          new AdminGuard(this.configService, this.userService),
+        ],
       },
       {
         path: '/removeFromCart',
         method: 'delete',
         func: this.removeFromCart,
-        middlewares: [new AuthGuard()],
+        middlewares: [
+          new AuthGuard(),
+          new AdminGuard(this.configService, this.userService),
+        ],
       },
       {
         path: '/removeAllCarts',
         method: 'delete',
         func: this.removeAllCarts,
-        middlewares: [new AuthGuard()],
+        middlewares: [
+          new AuthGuard(),
+          new AdminGuard(this.configService, this.userService),
+        ],
       },
       {
         path: '/removeCart/:id',
         method: 'delete',
         func: this.deleteCartItem,
-        middlewares: [new AuthGuard()],
+        middlewares: [
+          new AuthGuard(),
+          new AdminGuard(this.configService, this.userService),
+        ],
       },
     ]);
   }
