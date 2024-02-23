@@ -8,6 +8,7 @@ import jwt, { JwtPayload, sign } from 'jsonwebtoken';
 import { IConfigService } from '../interfaces/common/config.service.interface';
 import { IShoppingCartController } from '../interfaces/shoppingCart/shoppingCart.controller.interface';
 import { BaseController } from './base.controller';
+import { AuthGuard } from '../middlewares/auth.guard';
 
 @injectable()
 export class ShoppingCartController
@@ -26,31 +27,37 @@ export class ShoppingCartController
         path: '/createCart',
         method: 'post',
         func: this.createCart,
+        middlewares: [new AuthGuard()],
       },
       {
         path: '/addToCart',
         method: 'post',
         func: this.addToCart,
+        middlewares: [new AuthGuard()],
       },
       {
         path: '/getCart',
         method: 'get',
         func: this.getCart,
+        middlewares: [new AuthGuard()],
       },
       {
         path: '/removeFromCart',
         method: 'delete',
         func: this.removeFromCart,
+        middlewares: [new AuthGuard()],
       },
       {
         path: '/removeAllCarts',
         method: 'delete',
         func: this.removeAllCarts,
+        middlewares: [new AuthGuard()],
       },
       {
         path: '/removeCart/:id',
         method: 'delete',
         func: this.deleteCartItem,
+        middlewares: [new AuthGuard()],
       },
     ]);
   }
